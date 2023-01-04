@@ -1,4 +1,4 @@
-# Sistema_de_administraci-n_de_notas_de_alumnado
+# Sistema_de_administracion_de_notas_de_alumnado
 Actividad Grupal
 ▸	Descripción. La actividad consiste en diseñar e implementar en lenguaje C un proyecto de sistema de administración de las notas de alumnado.  Requisitos a tener en cuenta:
 o	Proponer un diseño modular representado mediante un esquema de módulos (al menos 4 módulos) con entradas, funciones y salidas para cada módulo/subsistema. Cada módulo (fichero de cabecera - modulox.h - en C) diseñado debe incluir las funciones necesarias de acuerdo con el propósito del módulo en concreto. 
