@@ -47,7 +47,7 @@ void seleccionarArchivo()
         numAlumnos = 0;
         break;
     default:
-        printf("Opción no válida.\n");
+        printf("Opcion no valida.\n");
     }
 }
 
@@ -102,7 +102,7 @@ void visualizarDatos(struct alumno alumnos[], int numAlumnos)
     {
         printf("Menu de opciones de visualizacion de datos\n");
         printf("1. Ver datos de todos los alumnos\n");
-        printf("2. Ver datos de un alumno específico\n");
+        printf("2. Ver datos de un alumno especifico\n");
         printf("3. Ver asignaturas de un curso\n");
         printf("4. Ver notas de una asignatura\n");
         printf("5. Ver notas medias de un curso\n");
@@ -170,7 +170,7 @@ void visualizarDatos(struct alumno alumnos[], int numAlumnos)
                     printf("Asignatura 4: %.2f\n", alumnos[i].asig4);
                     printf("Asignatura 5: %.2f\n", alumnos[i].asig5);
                     printf("Nota media: %.2f\n", (alumnos[i].asig1 + alumnos[i].asig2 + alumnos[i].asig3 + alumnos[i].asig4 + alumnos[i].asig5) / 5);
-                    // Aqui se podria añadir el calculo para mostrar la nota mas alta y la mas baja de cada asignatura
+                    // Aqui se podria anadir el calculo para mostrar la nota mas alta y la mas baja de cada asignatura
                 }
             }
             break;
@@ -254,7 +254,7 @@ void visualizarDatos(struct alumno alumnos[], int numAlumnos)
             printf("Saliendo...\n");
             break;
         default:
-            printf("Opción no válida\n");
+            printf("Opcion no valida\n");
             break;
         }
     }
@@ -294,7 +294,7 @@ void entradaDatos()
         }
         guardarDatos(alumnos, numAlumnos); // para guardar los datos de los alumnos
         char respuesta[10];
-        printf("¿Desea introducir más alumnos? (S/N): ");
+        printf("Desea introducir mas alumnos? (S/N): ");
         scanf("%s", respuesta);
         if (strcmp(respuesta, "N") == 0 || strcmp(respuesta, "n") == 0)
         {
@@ -367,10 +367,10 @@ int menuOpciones()
             entradaDatos();
             break;
         case 2:
-            calcularNotasMedias();
+            calcularNotasMedias(alumno,numAlumnos);
             break;
         case 3:
-            visualizarDatos();
+            visualizarDatos(alumno[],numAlumnos);
             break;
         case 4:
             modificarEliminarDatos();
