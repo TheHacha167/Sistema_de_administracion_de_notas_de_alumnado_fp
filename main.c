@@ -8,11 +8,10 @@ void modificarEliminarDatos();
 
 
 */
-// hacer una funcion que pida al usuario un numero#
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h> // Booleanos
-#include "funciones.h"
+//#include "funciones.h"
 
 const char *ARCHIVO_A = "alumnos.txt";
 const char *ARCHIVO_B = "usuario.txt";
