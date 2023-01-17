@@ -76,3 +76,25 @@
 19875432Z,Ana,Lopez,1,analopez@gmail.com,6.5,7.0,8.0,9.0,8.5
 98765321A,Santiago,Martinez,2,santiagomartinez@gmail.com,8.0,9.0,7.5,8.5,7.0
 87653219B,Maria,Garcia,3,mariagarcia@gmail.com,6.5,7.0,8.0,9.0,8.5
+76543221A,Juan,Perez,2,juanperez@gmail.com,7.5,8.0,9.0,8.5,9.0
+87654322B,Ana,Lopez,1,analopez@gmail.com,8.5,9.0,9.5,8.0,9.0
+87654323C,Pedro,Martinez,3,pedromartinez@gmail.com,7.5,8.5,9.0,9.5,8.5
+87654324D,Sofia,Gomez,2,sofiagomez@gmail.com,8.0,8.5,9.0,9.0,9.0
+87654325E,Carlos,Sanchez,1,carlossanchez@gmail.com,9.0,9.5,9.0,8.5,9.0
+87654326F,Lucia,Diaz,3,luciadiaz@gmail.com,8.5,9.0,8.5,9.0,9.0
+87654327G,Miguel,Alvarez,2,miguelalvarez@gmail.com,9.0,9.0,9.5,9.0,9.0
+87654328H,Julia,Torres,1,juliatorres@gmail.com,9.0,9.0,9.0,9.0,9.0
+87654329I,Adrian,Ramirez,3,adrianramirez@gmail.com,9.0,9.0,8.5,9.0,9.0
+87654320J,Isabel,Jimenez,2,isabeljimenez@gmail.com,9.0,9.0,9.0,9.0,9.5
+87654321K,Diego,Moreno,1,diegomoreno@gmail.com,8.5,9.0,9.0,9.0,9.0
+87654322L,Cristina,Muñoz,3,cristinamunoz@gmail.com,9.0,9.0,9.0,9.0,9.0
+87654323M,Juan Carlos,Alonso,2,juancarlosalonso@gmail.com,9.0,9.0,9.0,9.0,9.0
+87654324N,Laura,Garcia,1,lauragarcia@gmail.com,9.0,9.0,9.0,9.0,9.0
+87654325O,Luis,Gonzalez,3,luisgonzalez@gmail.com,9.0,9.0,9.0,9.0,9.0
+87654326P,Rosa,Rodriguez,2,rosarodriguez@gmail.com,9.0,9.0,9.0,9.0,9.0
+87654327Q,Manuel,Martinez,1,manuelmartinez@gmail.com,9.0,9.0,9.0,9.0
+87654328R,Maria Jose,Fernandez,3,mariajosefernandez@gmail.com,9.0,9.0,9.0,9.0,9.0
+87654329S,Andres,Lopez,2,andreslopez@gmail.com,9.0,9.0,9.0,9.0,9.0
+87654320T,Juliana,Gonzalez,1,julianagonzalez@gmail.com,9.0,9.0,9.0,9.0,9.0
+87654321U,Jorge,Hernandez,3,jorgehernandez@gmail.com,9.0,9.0,9.0,9.0,9.0
+87654322V,Sebastian,Gomez,2,sebastiangomez@gmail.com,9.0,9.0,9.0,9.0,9.0
