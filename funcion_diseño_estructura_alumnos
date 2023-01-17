@@ -1,4 +1,8 @@
 // Diseño de estructura de alumnos:
+
+// // La estructura "alumno" define los campos que se almacenarán para cada alumno: DNI
+// nombre, apellidos, curso, email, notas de las asignaturas y media de las notas.
+
 struct alumno {
     char dni[10];
     char nombre[50];
