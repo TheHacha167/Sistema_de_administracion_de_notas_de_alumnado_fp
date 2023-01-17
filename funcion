@@ -1,0 +1,11 @@
+// Diseño de estructura de alumnos:
+struct alumno {
+    char dni[10];
+    char nombre[50];
+    char apellidos[100];
+    int curso;
+    char email[100];
+    float asignaturas[5];
+    float media;
+}
+
