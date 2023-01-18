@@ -1,12 +1,9 @@
 /*
-
 // Funciones del sistema
 void entradaDatos();
 void calcularNotasMedias();
 void visualizarDatos();
 void modificarEliminarDatos();
-
-
 */
 #include <stdio.h>
 #include <string.h>
@@ -16,9 +13,9 @@ void modificarEliminarDatos();
 const char *ARCHIVO_A = "alumnos.txt";
 const char *ARCHIVO_B = "usuario.txt";
 const char *archivoSeleccionado;
-int numAlumnos = 100;
+const int numAlumnos = 100;
 
-struct alumno
+typedef struct alumno
 {
     char dni[10];
     char nombre[30];
@@ -26,10 +23,11 @@ struct alumno
     int curso;
     char email[40];
     float asig1, asig2, asig3, asig4, asig5;
-};
+} alumno;
 
 void seleccionarArchivo()
 {
+
     int opcion;
     printf("Selecciona el archivo de alumnos que deseas utilizar:\n");
     printf("1.datos predeterminados %s\n", ARCHIVO_A);
@@ -39,11 +37,11 @@ void seleccionarArchivo()
     {
     case 1:
         archivoSeleccionado = ARCHIVO_A;
-        numAlumnos = 100;
+        //numAlumnos = 100;
         break;
     case 2:
         archivoSeleccionado = ARCHIVO_B;
-        numAlumnos = 0;
+        //numAlumnos = 0;
         break;
     default:
         printf("Opcion no valida.\n");
@@ -276,9 +274,6 @@ void entradaDatos()
     }
 }*/
 /*
-
-
-
 void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
 {
     float mediaAsig1 = 0;
@@ -302,7 +297,6 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
         mediaAsig3 += alumnos[i].asig3;
         mediaAsig4 += alumnos[i].asig4;
         mediaAsig5 += alumnos[i].asig5;
-
         if (alumnos[i].asig1 > notaMaxima)
             notaMaxima = alumnos[i].asig1;
         if (alumnos[i].asig1 < notaMinima)
@@ -324,22 +318,29 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
 }
 */
 
-void pedirDatosAlumnos(int numAlumnos)
+void pedirDatosAlumnos(const char *archivoSeleccionado, int numAlumnos, alumno *alumnos)
 {
-    struct alumno alumnos[numAlumnos];
-    char buffer[150];
-    FILE *archivo = fopen("alumnos.txt", "w");
+    int i = 0;
+    FILE *archivo = fopen(archivoSeleccionado, "r");
     if (archivo == NULL)
     {
         printf("Error al abrir el archivo\n");
-        return;
     }
-    for (int i = 0; i < numAlumnos; i++)
+    else
+    {
+        while (!EOF && i < numAlumnos)
+        {
+            fscanf(archivo, "%s,%s,%s,%d,%s,%f,%f,%f,%f,%f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
+            i++;
+        }
+        
+    /*    for (int i = 0; i < numAlumnos; i++)
     {
         printf("Introduce los datos del alumno %d (Formato: dni,nombre,apellidos,curso,email,nota1,nota2,nota3,nota4,nota5): ", i + 1);
         scanf("%s", buffer);
         sscanf(buffer, "%s,%s,%s,%d,%s,%f,%f,%f,%f,%f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
         fprintf(archivo, "%s %s %s %d %s %f %f %f %f %f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+    }*/
     }
     fclose(archivo);
 }
@@ -387,26 +388,30 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
     printf("Nota minima: %.2f\n", notaMinima);
     fclose(archivo);
 }
-void mostrarDatosAlumnos(int numAlumnos)
+void mostrarDatosAlumnos(int numAlumnos, const char *archivoSeleccionado)
 {
     struct alumno alumnos[numAlumnos];
-    FILE *archivo = fopen("archivoSeleccionado", "r");
+    FILE *archivo = fopen(archivoSeleccionado, "r");
     if (archivo == NULL)
     {
         printf("Error al abrir el archivo\n");
-        return;
     }
-    for (int i = 0; i < numAlumnos; i++)
+    else
     {
+        for (int i = 0; i < numAlumnos; i++)
+    {
+        //LEER ARCHIVO TXT ERROR
         fscanf(archivo, "%s %s %s %d %s %f %f %f %f %f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
         printf("%s,%s,%s,%d,%s,%.1f,%.1f,%.1f,%.1f,%.1f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+    }
     }
     fclose(archivo);
 }
 
-int menuOpciones()
+void menuOpciones(const char *archivoSeleccionado, alumno *alumnos)
 {
     int opcion = 0;
+
     while (opcion != 5)
     {
         printf("Menu de opciones\n");
@@ -420,14 +425,14 @@ int menuOpciones()
         switch (opcion)
         {
         case 1:
-            pedirDatosAlumnos(numAlumnos);
+            pedirDatosAlumnos(archivoSeleccionado, numAlumnos, alumnos);
             break;
         case 2:
-            // calcularNotasMedias(alumno, numAlumnos);
+            //calcularNotasMedias(al, numAlumnos);
             break;
         case 3:
             // visualizarDatos(alumnos[i].asig1,numAlumnos);
-            mostrarDatosAlumnos(numAlumnos);
+            mostrarDatosAlumnos(numAlumnos, archivoSeleccionado);
             break;
         case 4:
             // modificarEliminarDatos();
@@ -439,10 +444,13 @@ int menuOpciones()
             printf("Opcion incorrecta. Por favor, seleccione una opcion valida.\n");
         }
     }
-    return 0;
 }
 int main()
 {
+    alumno alumnos[numAlumnos];
     seleccionarArchivo();
-    menuOpciones();
+    printf("%s",archivoSeleccionado);
+    menuOpciones(archivoSeleccionado, alumnos);
+
+    return 0;
 }
