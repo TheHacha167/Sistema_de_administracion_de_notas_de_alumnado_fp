@@ -25,6 +25,22 @@ typedef struct alumno
     float asig1, asig2, asig3, asig4, asig5;
 } alumno;
 
+void cargarDatosDeArchivo(struct alumno alumnos[], int *numAlumnos)
+{
+    FILE *archivo = fopen("datos.txt", "r");
+    if (archivo == NULL)
+    {
+        printf("Error al abrir el archivo\n");
+        return;
+    }
+    fscanf(archivo, "%d", numAlumnos);
+    for (int i = 0; i < *numAlumnos; i++)
+    {
+        fscanf(archivo, "%s %s %s %d %s %f %f %f %f %f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
+    }
+    fclose(archivo);
+}
+
 void seleccionarArchivo()
 {
 
@@ -349,7 +365,7 @@ void pedirDatosAlumnos(const char *archivoSeleccionado, int numAlumnos, alumno *
     fclose(archivo);
 }
 */
-
+/*
 void agregarEntradas(int numAlumnos, int masEntradas)
 {
     struct alumno alumnos[numAlumnos];
@@ -379,6 +395,36 @@ void agregarEntradas(int numAlumnos, int masEntradas)
 
     fclose(datos);
 }
+*/
+void agregarEntradas(struct alumno alumnos[], int masEntradas)
+{
+    
+    FILE *datos = fopen("datos.txt", "a");
+    if (datos == NULL)
+    {
+        printf("Error al abrir el archivo\n");
+        return;
+    }
+
+    for (int i = numAlumnos; i < numAlumnos + masEntradas; i++)
+    {
+        printf("Ingrese el DNI del alumno %d: ", i + 1);
+        scanf("%s", alumnos[i].dni);
+        printf("Ingrese el nombre del alumno %d: ", i + 1);
+        scanf("%s", alumnos[i].nombre);
+        printf("Ingrese el apellido del alumno %d: ", i + 1);
+        scanf("%s", alumnos[i].apellidos);
+        printf("Ingrese el curso %d: ", i + 1);
+        scanf("%d", &alumnos[i].curso);
+        printf("Ingrese el email del alumno %d: ", i + 1);
+        scanf("%s", alumnos[i].email);
+        printf("Ingrese las 5 notas del alumno %d: ", i + 1);
+        scanf("%f %f %f %f %f", &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
+        fprintf(datos, "%s,%s,%s,%d,%s,%.1f,%.1f,%.1f,%.1f,%.1f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+    }
+    numAlumnos += masEntradas;
+    fclose(datos);
+}
 void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
 {
     float mediaAsig1 = 0;
@@ -388,15 +434,15 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
     float mediaAsig5 = 0;
     float notaMaxima = 0;
     float notaMinima = 100;
-    FILE *archivo = fopen("alumnos.txt", "r");
-    if (archivo == NULL)
+   FILE *datos = fopen("datos.txt", "a");
+    if (datos == NULL)
     {
         printf("Error al abrir el archivo\n");
         return;
     }
     for (int i = 0; i < numAlumnos; i++)
     {
-        fscanf(archivo, "%s %s %s %d %s %f %f %f %f %f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
+        fscanf(datos, "%s %s %s %d %s %f %f %f %f %f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
         mediaAsig1 += alumnos[i].asig1;
         mediaAsig2 += alumnos[i].asig2;
         mediaAsig3 += alumnos[i].asig3;
@@ -420,7 +466,7 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
     printf("Nota media asignatura 5: %.2f\n", mediaAsig5);
     printf("Nota maxima: %.2f\n", notaMaxima);
     printf("Nota minima: %.2f\n", notaMinima);
-    fclose(archivo);
+    fclose(datos);
 }
 void mostrarDatosAlumnos(int numAlumnos, const char *datos)
 {
@@ -467,9 +513,9 @@ void menuOpciones(const char *datos, alumno *alumnos)
         case 1:
             printf("Ingrese el numero de entradas a añadir: ");
             scanf("%d", &masEntradas);
-            //printf("entradas_____%d ", masEntradas);
+            // printf("entradas_____%d ", masEntradas);
 
-            agregarEntradas(numAlumnos, masEntradas);
+            agregarEntradas(alumnos, numAlumnos);
             numAlumnos = numAlumnos + masEntradas;
             masEntradas = 0;
             break;
@@ -477,7 +523,7 @@ void menuOpciones(const char *datos, alumno *alumnos)
             calcularNotasMedias(alumnos, numAlumnos);
             break;
         case 3:
-            //visualizarDatos(alumnos, numAlumnos);
+            visualizarDatos(alumnos, numAlumnos);
             break;
         case 4:
             // modificarEliminarDatos(alumnos, numAlumnos);
@@ -556,6 +602,13 @@ int main()
         if (seguir)
             menuOpciones(datos, alumnos);
     }
+
+    int numAlumnos;
+    cargarDatosDeArchivo(alumnos, &numAlumnos);
+    visualizarDatos(alumnos, numAlumnos);
+
+
+
     return 0;
 
     // menuOpciones(archivoSeleccionado, alumnos);
