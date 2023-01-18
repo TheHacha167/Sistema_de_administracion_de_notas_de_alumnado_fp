@@ -10,12 +10,10 @@ void modificarEliminarDatos();
 #include <stdbool.h> // Booleanos
 // #include "funciones.h"
 
-const char *ARCHIVO_A = "alumnos.txt";
-const char *ARCHIVO_B = "usuario.txt";
-const char *archivoSeleccionado;
 int numAlumnos = 100;
 int masEntradas = 0;
 int seguir = 1;
+const char *datos = "datos.txt";
 
 typedef struct alumno
 {
@@ -32,18 +30,17 @@ void seleccionarArchivo()
 
     int opcion;
     printf("Selecciona el archivo de alumnos que deseas utilizar:\n");
-    printf("1.datos predeterminados %s\n", ARCHIVO_A);
-    printf("2.datos usuario %s\n", ARCHIVO_B);
+    printf("1.datos predeterminados\n");
+    printf("2.datos usuario\n");
     scanf("%d", &opcion);
     switch (opcion)
     {
     case 1:
-        archivoSeleccionado = ARCHIVO_A;
-        // numAlumnos = 100;
+
+        numAlumnos = 100;
         break;
     case 2:
-        archivoSeleccionado = ARCHIVO_B;
-        // numAlumnos = 0;
+        numAlumnos = 0;
         break;
     default:
         printf("Opcion no valida.\n");
@@ -54,7 +51,7 @@ void guardarDatos(struct alumno alumnos[], int numAlumnos)
 {
 
     FILE *fp;
-    fp = fopen("archivoSeleccionado", "w");
+    fp = fopen("datos", "w");
     for (int i = 0; i < numAlumnos; i++)
     {
         fprintf(fp, "%s,%s,%s,%d,%s,%f,%f,%f,%f,%f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
@@ -62,7 +59,10 @@ void guardarDatos(struct alumno alumnos[], int numAlumnos)
     fclose(fp);
     printf("Los datos de los alumnos se han guardado en el archivo alumnos.txt\n");
 }
-
+/*
+Haz una funcion que permita visualizar los datos del fichero "datos.txt" en el cual se almacenan de la siguiente forma "87654322V,Sebastian,Gomez,2,sebastiangomez@gmail.com,9.0,9.0,9.0,9.0,9.0
+" y que tenga un menu que permita"1. Ver datos de todos los alumnos 2. Ver datos de un alumno especifico 3. Ver asignaturas de un curso 4. Ver notas de una asignatura 5. Ver notas medias de un curso 6. Salir" el número de entradas existente esta en la variable "numAlumnos" en c
+*/
 void visualizarDatos(struct alumno alumnos[], int numAlumnos)
 {
     int opcion = 0;
@@ -70,7 +70,7 @@ void visualizarDatos(struct alumno alumnos[], int numAlumnos)
     int curso;
     int asignatura2 = 0;
     int curso2;
-    while (opcion != 7)
+    while (opcion != 6)
     {
         printf("Menu de opciones de visualizacion de datos\n");
         printf("1. Ver datos de todos los alumnos\n");
@@ -224,6 +224,7 @@ void visualizarDatos(struct alumno alumnos[], int numAlumnos)
             break;
         case 6:
             printf("Saliendo...\n");
+
             break;
         default:
             printf("Opcion no valida\n");
@@ -355,8 +356,8 @@ void pedirDatosAlumnos(const char *archivoSeleccionado, int numAlumnos, alumno *
 void agregarEntradas(int numAlumnos, int masEntradas)
 {
     struct alumno alumnos[numAlumnos];
-    FILE *archivoSeleccionado = fopen("archivoSeleccionado.txt", "a");
-    if (archivoSeleccionado == NULL)
+    FILE *datos = fopen("datos.txt", "a");
+    if (datos == NULL)
     {
         printf("Error al abrir el archivo\n");
         return;
@@ -376,10 +377,10 @@ void agregarEntradas(int numAlumnos, int masEntradas)
         scanf("%s", alumnos[i].email);
         printf("Ingrese las 5 notas del alumno %d: ", i + 1);
         scanf("%f %f %f %f %f", &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
-        fprintf(archivoSeleccionado, "%s,%s,%s,%d,%s,%f,%f,%f,%f,%f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+        fprintf(datos, "%s,%s,%s,%d,%s,%f,%f,%f,%f,%f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
     }
 
-    fclose(archivoSeleccionado);
+    fclose(datos);
 }
 void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
 {
@@ -424,13 +425,13 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
     printf("Nota minima: %.2f\n", notaMinima);
     fclose(archivo);
 }
-void mostrarDatosAlumnos(int numAlumnos, const char *archivoSeleccionado)
+void mostrarDatosAlumnos(int numAlumnos, const char *datos)
 {
     printf("____________________\n");
     printf("funcioon pedir datos\n");
     printf("____________________\n");
     struct alumno alumnos[numAlumnos];
-    FILE *archivo = fopen(archivoSeleccionado, "r");
+    FILE *archivo = fopen(datos, "r");
     if (archivo == NULL)
     {
         printf("Error al abrir el archivo\n");
@@ -450,7 +451,7 @@ void mostrarDatosAlumnos(int numAlumnos, const char *archivoSeleccionado)
     fclose(archivo);
 }
 
-void menuOpciones(const char *archivoSeleccionado, alumno *alumnos)
+void menuOpciones(const char *datos, alumno *alumnos)
 {
     int opcion = 0;
 
@@ -469,18 +470,20 @@ void menuOpciones(const char *archivoSeleccionado, alumno *alumnos)
         case 1:
             printf("Ingrese el numero de entradas a añadir: ");
             scanf("%d", &masEntradas);
+            printf("entradas_____%d ", masEntradas);
+
             agregarEntradas(numAlumnos, masEntradas);
             numAlumnos = numAlumnos + masEntradas;
             masEntradas = 0;
             break;
         case 2:
-            // calcularNotasMedias(al, numAlumnos);
+            calcularNotasMedias(alumnos, numAlumnos);
             break;
         case 3:
-            //visualizar datos
+            visualizarDatos(alumnos, numAlumnos);
             break;
         case 4:
-            // modificarEliminarDatos();
+            // modificarEliminarDatos(alumnos, numAlumnos);
             break;
         case 5:
             printf("Saliendo del sistema...\n");
@@ -490,8 +493,8 @@ void menuOpciones(const char *archivoSeleccionado, alumno *alumnos)
         }
     }
 }
-/*
-void modificarEliminarAlumno(struct alumno alumnos[], int *numAlumnos) {
+
+/*void modificarEliminarAlumno(struct alumno alumnos[], int *numAlumnos) {
     int dni;
     int index = -1;
     int opcion;
@@ -548,14 +551,13 @@ int main()
 {
     alumno alumnos[numAlumnos];
     seleccionarArchivo();
-    printf("%s\n", archivoSeleccionado);
 
     while (seguir)
     {
         printf("¿Desea continuar en el programa? (1: Si / 0: No) : ");
         scanf("%d", &seguir);
         if (seguir)
-            menuOpciones(archivoSeleccionado, alumnos);
+            menuOpciones(datos, alumnos);
     }
     return 0;
 
