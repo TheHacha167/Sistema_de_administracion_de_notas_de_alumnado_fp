@@ -1,12 +1,9 @@
 /*
-
 // Funciones del sistema
 void entradaDatos();
 void calcularNotasMedias();
 void visualizarDatos();
 void modificarEliminarDatos();
-
-
 */
 #include <stdio.h>
 #include <string.h>
@@ -17,8 +14,10 @@ const char *ARCHIVO_A = "alumnos.txt";
 const char *ARCHIVO_B = "usuario.txt";
 const char *archivoSeleccionado;
 int numAlumnos = 100;
+int masEntradas = 0;
+int seguir = 1;
 
-struct alumno
+typedef struct alumno
 {
     char dni[10];
     char nombre[30];
@@ -26,10 +25,11 @@ struct alumno
     int curso;
     char email[40];
     float asig1, asig2, asig3, asig4, asig5;
-};
+} alumno;
 
 void seleccionarArchivo()
 {
+
     int opcion;
     printf("Selecciona el archivo de alumnos que deseas utilizar:\n");
     printf("1.datos predeterminados %s\n", ARCHIVO_A);
@@ -39,11 +39,11 @@ void seleccionarArchivo()
     {
     case 1:
         archivoSeleccionado = ARCHIVO_A;
-        numAlumnos = 100;
+        // numAlumnos = 100;
         break;
     case 2:
         archivoSeleccionado = ARCHIVO_B;
-        numAlumnos = 0;
+        // numAlumnos = 0;
         break;
     default:
         printf("Opcion no valida.\n");
@@ -276,9 +276,6 @@ void entradaDatos()
     }
 }*/
 /*
-
-
-
 void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
 {
     float mediaAsig1 = 0;
@@ -302,7 +299,6 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
         mediaAsig3 += alumnos[i].asig3;
         mediaAsig4 += alumnos[i].asig4;
         mediaAsig5 += alumnos[i].asig5;
-
         if (alumnos[i].asig1 > notaMaxima)
             notaMaxima = alumnos[i].asig1;
         if (alumnos[i].asig1 < notaMinima)
@@ -323,27 +319,68 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
     fclose(archivo);
 }
 */
+/*
+void pedirDatosAlumnos(const char *archivoSeleccionado, int numAlumnos, alumno *alumnos)
+{
+    printf("____________________\n");
+    printf("funcioon pedir datos\n");
+    printf("____________________\n");
 
-void pedirDatosAlumnos(int numAlumnos)
+    int i = 0;
+    FILE *archivo = fopen(archivoSeleccionado, "r");
+    printf("____________________\n");
+    printf("lee los datos\n");
+    printf("____________________\n");
+    if (archivo == NULL)
+    {
+        printf("Error al abrir el archivo\n");
+    }
+    else
+    {
+        while (!EOF && i < numAlumnos)
+        {
+            printf("____________________\n");
+            printf(" while funcioon pedir datos\n");
+            printf("____________________\n");
+            fscanf(archivo, "%s,%s,%s,%d,%s,%f,%f,%f,%f,%f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
+            i++;
+        }
+
+
+    }
+    fclose(archivo);
+}
+*/
+
+void agregarEntradas(int numAlumnos, int masEntradas)
 {
     struct alumno alumnos[numAlumnos];
-    char buffer[150];
-    FILE *archivo = fopen("alumnos.txt", "w");
-    if (archivo == NULL)
+    FILE *archivoSeleccionado = fopen("archivoSeleccionado.txt", "a");
+    if (archivoSeleccionado == NULL)
     {
         printf("Error al abrir el archivo\n");
         return;
     }
-    for (int i = 0; i < numAlumnos; i++)
-    {
-        printf("Introduce los datos del alumno %d (Formato: dni,nombre,apellidos,curso,email,nota1,nota2,nota3,nota4,nota5): ", i + 1);
-        scanf("%s", buffer);
-        sscanf(buffer, "%s,%s,%s,%d,%s,%f,%f,%f,%f,%f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
-        fprintf(archivo, "%s %s %s %d %s %f %f %f %f %f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
-    }
-    fclose(archivo);
-}
 
+    for (int i = numAlumnos; i < numAlumnos + masEntradas; i++)
+    {
+        printf("Ingrese el DNI del alumno %d: ", i + 1);
+        scanf("%s", alumnos[i].dni);
+        printf("Ingrese el nombre del alumno %d: ", i + 1);
+        scanf("%s", alumnos[i].nombre);
+        printf("Ingrese el apellido del alumno %d: ", i + 1);
+        scanf("%s", alumnos[i].apellidos);
+        printf("Ingrese lel curso %d: ", i + 1);
+        scanf("%d", &alumnos[i].curso);
+        printf("Ingrese el email del alumno %d: ", i + 1);
+        scanf("%s", alumnos[i].email);
+        printf("Ingrese las 5 notas del alumno %d: ", i + 1);
+        scanf("%f %f %f %f %f", &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
+        fprintf(archivoSeleccionado, "%s,%s,%s,%d,%s,%f,%f,%f,%f,%f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+    }
+
+    fclose(archivoSeleccionado);
+}
 void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
 {
     float mediaAsig1 = 0;
@@ -387,26 +424,36 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
     printf("Nota minima: %.2f\n", notaMinima);
     fclose(archivo);
 }
-void mostrarDatosAlumnos(int numAlumnos)
+void mostrarDatosAlumnos(int numAlumnos, const char *archivoSeleccionado)
 {
+    printf("____________________\n");
+    printf("funcioon pedir datos\n");
+    printf("____________________\n");
     struct alumno alumnos[numAlumnos];
-    FILE *archivo = fopen("archivoSeleccionado", "r");
+    FILE *archivo = fopen(archivoSeleccionado, "r");
     if (archivo == NULL)
     {
         printf("Error al abrir el archivo\n");
-        return;
     }
-    for (int i = 0; i < numAlumnos; i++)
+    else
     {
-        fscanf(archivo, "%s %s %s %d %s %f %f %f %f %f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
-        printf("%s,%s,%s,%d,%s,%.1f,%.1f,%.1f,%.1f,%.1f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+        printf("____________________\n");
+        printf(" else funcioon pedir datos\n");
+        printf("____________________\n");
+        for (int i = 0; i < numAlumnos; i++)
+        {
+            // LEER ARCHIVO TXT ERROR
+            fscanf(archivo, "%s %s %s %d %s %f %f %f %f %f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
+            printf("%s,%s,%s,%d,%s,%.1f,%.1f,%.1f,%.1f,%.1f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+        }
     }
     fclose(archivo);
 }
 
-int menuOpciones()
+void menuOpciones(const char *archivoSeleccionado, alumno *alumnos)
 {
     int opcion = 0;
+
     while (opcion != 5)
     {
         printf("Menu de opciones\n");
@@ -420,14 +467,17 @@ int menuOpciones()
         switch (opcion)
         {
         case 1:
-            pedirDatosAlumnos(numAlumnos);
+            printf("Ingrese el numero de entradas a añadir: ");
+            scanf("%d", &masEntradas);
+            agregarEntradas(numAlumnos, masEntradas);
+            numAlumnos = numAlumnos + masEntradas;
+            masEntradas = 0;
             break;
         case 2:
-            // calcularNotasMedias(alumno, numAlumnos);
+            // calcularNotasMedias(al, numAlumnos);
             break;
         case 3:
-            // visualizarDatos(alumnos[i].asig1,numAlumnos);
-            mostrarDatosAlumnos(numAlumnos);
+            //visualizar datos
             break;
         case 4:
             // modificarEliminarDatos();
@@ -439,10 +489,77 @@ int menuOpciones()
             printf("Opcion incorrecta. Por favor, seleccione una opcion valida.\n");
         }
     }
-    return 0;
 }
+/*
+void modificarEliminarAlumno(struct alumno alumnos[], int *numAlumnos) {
+    int dni;
+    int index = -1;
+    int opcion;
+    printf("Introduce el DNI del alumno a modificar o eliminar: ");
+    scanf("%d", &dni);
+    for (int i = 0; i < *numAlumnos; i++) {
+        if (alumnos[i].dni == dni) {
+            index = i;
+            break;
+        }
+    }
+    if (index == -1) {
+        printf("No se ha encontrado ningún alumno con ese DNI\n");
+        return;
+    }
+    printf("¿Qué deseas hacer con el alumno?\n1. Modificar\n2. Eliminar\n");
+    scanf("%d", &opcion);
+    switch (opcion) {
+        case 1:
+            printf("Introduce el nuevo nombre del alumno: ");
+            scanf("%s", alumnos[index].nombre);
+            printf("Introduce los nuevos apellidos del alumno: ");
+            scanf("%s", alumnos[index].apellidos);
+            printf("Introduce el nuevo curso del alumno: ");
+            scanf("%s", alumnos[index].curso);
+            printf("Introduce el nuevo email del alumno: ");
+            scanf("%s", alumnos[index].email);
+            printf("Introduce la nueva nota de la asignatura 1: ");
+            scanf("%f", &alumnos[index].asig1);
+            printf("Introduce la nueva nota de la asignatura 2: ");
+            scanf("%f", &alumnos[index].asig2);
+            printf("Introduce la nueva nota de la asignatura 3: ");
+            scanf("%f", &alumnos[index].asig3);
+            printf("Introduce la nueva nota de la asignatura 4: ");
+            scanf("%f", &alumnos[index].asig4);
+            printf("Introduce la nueva nota de la asignatura 5: ");
+            scanf("%f", &alumnos[index].asig5);
+            printf("Los datos del alumno han sido actualizados\n");
+            break;
+        case 2:
+            for (int i = index; i < *numAlumnos - 1; i++) {
+                alumnos[i] = alumnos[i + 1];
+            }
+            (*numAlumnos)--;
+            printf("El alumno ha sido eliminado\n");
+            break;
+        default:
+            printf("Opción no válida\n");
+    }
+}
+*/
+
 int main()
 {
+    alumno alumnos[numAlumnos];
     seleccionarArchivo();
-    menuOpciones();
+    printf("%s\n", archivoSeleccionado);
+
+    while (seguir)
+    {
+        printf("¿Desea continuar en el programa? (1: Si / 0: No) : ");
+        scanf("%d", &seguir);
+        if (seguir)
+            menuOpciones(archivoSeleccionado, alumnos);
+    }
+    return 0;
+
+    // menuOpciones(archivoSeleccionado, alumnos);
+
+    return 0;
 }
