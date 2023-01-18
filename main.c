@@ -57,12 +57,9 @@ void guardarDatos(struct alumno alumnos[], int numAlumnos)
         fprintf(fp, "%s,%s,%s,%d,%s,%f,%f,%f,%f,%f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
     }
     fclose(fp);
-    printf("Los datos de los alumnos se han guardado en el archivo alumnos.txt\n");
+    printf("Los datos de los alumnos se han guardado en el archivo datos.txt\n");
 }
-/*
-Haz una funcion que permita visualizar los datos del fichero "datos.txt" en el cual se almacenan de la siguiente forma "87654322V,Sebastian,Gomez,2,sebastiangomez@gmail.com,9.0,9.0,9.0,9.0,9.0
-" y que tenga un menu que permita"1. Ver datos de todos los alumnos 2. Ver datos de un alumno especifico 3. Ver asignaturas de un curso 4. Ver notas de una asignatura 5. Ver notas medias de un curso 6. Salir" el número de entradas existente esta en la variable "numAlumnos" en c
-*/
+
 void visualizarDatos(struct alumno alumnos[], int numAlumnos)
 {
     int opcion = 0;
@@ -470,7 +467,7 @@ void menuOpciones(const char *datos, alumno *alumnos)
         case 1:
             printf("Ingrese el numero de entradas a añadir: ");
             scanf("%d", &masEntradas);
-            printf("entradas_____%d ", masEntradas);
+            //printf("entradas_____%d ", masEntradas);
 
             agregarEntradas(numAlumnos, masEntradas);
             numAlumnos = numAlumnos + masEntradas;
@@ -480,7 +477,7 @@ void menuOpciones(const char *datos, alumno *alumnos)
             calcularNotasMedias(alumnos, numAlumnos);
             break;
         case 3:
-            visualizarDatos(alumnos, numAlumnos);
+            //visualizarDatos(alumnos, numAlumnos);
             break;
         case 4:
             // modificarEliminarDatos(alumnos, numAlumnos);
