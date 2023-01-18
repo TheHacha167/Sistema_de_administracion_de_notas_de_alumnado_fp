@@ -75,7 +75,7 @@ void guardarDatos(struct alumno alumnos[], int numAlumnos)
     fclose(fp);
     printf("Los datos de los alumnos se han guardado en el archivo datos.txt\n");
 }
-
+/*
 void visualizarDatos(struct alumno alumnos[], int numAlumnos)
 {
     int opcion = 0;
@@ -83,6 +83,8 @@ void visualizarDatos(struct alumno alumnos[], int numAlumnos)
     int curso;
     int asignatura2 = 0;
     int curso2;
+
+
     while (opcion != 6)
     {
         printf("Menu de opciones de visualizacion de datos\n");
@@ -245,6 +247,7 @@ void visualizarDatos(struct alumno alumnos[], int numAlumnos)
         }
     }
 }
+*/
 /*
 void entradaDatos()
 {
@@ -398,7 +401,7 @@ void agregarEntradas(int numAlumnos, int masEntradas)
 */
 void agregarEntradas(struct alumno alumnos[], int masEntradas)
 {
-    
+
     FILE *datos = fopen("datos.txt", "a");
     if (datos == NULL)
     {
@@ -434,7 +437,7 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
     float mediaAsig5 = 0;
     float notaMaxima = 0;
     float notaMinima = 100;
-   FILE *datos = fopen("datos.txt", "a");
+    FILE *datos = fopen("datos.txt", "a");
     if (datos == NULL)
     {
         printf("Error al abrir el archivo\n");
@@ -523,7 +526,7 @@ void menuOpciones(const char *datos, alumno *alumnos)
             calcularNotasMedias(alumnos, numAlumnos);
             break;
         case 3:
-            visualizarDatos(alumnos, numAlumnos);
+            visualizar_datos();
             break;
         case 4:
             // modificarEliminarDatos(alumnos, numAlumnos);
@@ -536,6 +539,104 @@ void menuOpciones(const char *datos, alumno *alumnos)
         }
     }
 }
+
+#include <stdio.h>
+
+
+void visualizar_datos(){
+    char dni[10];
+    FILE *fp;
+    fp=fopen("datos.txt", "r");
+    alumno alumnos[100];
+    while(fscanf(fp, "%s %s %s %d %s %f %f %f %f %f", alumnos[numAlumnos].dni, alumnos[numAlumnos].nombre, alumnos[numAlumnos].apellidos, &alumnos[numAlumnos].curso, alumnos[numAlumnos].email, &alumnos[numAlumnos].asig1, &alumnos[numAlumnos].asig2, &alumnos[numAlumnos].asig3, &alumnos[numAlumnos].asig4, &alumnos[numAlumnos].asig5) != EOF) {
+      numAlumnos++;
+    }
+    fclose(fp);
+    int opcion=1;
+    while(opcion!=6){
+        printf("1. Ver datos de todos los alumnos\n");
+        printf("2. Ver datos de un alumno específico\n");
+        printf("3. Ver asignaturas de un curso\n");
+        printf("4. Ver notas de una asignatura\n");
+        printf("5. Ver notas medias de un curso\n");
+        printf("6. Salir\n");
+        scanf("%d", &opcion);
+        if(opcion==1){
+            for(int i=0; i<numAlumnos; i++) {
+                printf("DNI: %s\n", alumnos[i].dni);
+                printf("Nombre: %s\n", alumnos[i].nombre);
+                printf("Apellidos: %s\n", alumnos[i].apellidos);
+                printf("Curso: %d\n", alumnos[i].curso);
+                printf("Email: %s\n", alumnos[i].email);
+                printf("Notas: %f %f %f %f %f\n", alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+            }
+        }
+        if(opcion==2){
+            printf("Introduce el DNI del alumno: ");
+            scanf("%s", &dni);
+            for(int i=0; i<numAlumnos; i++) {
+                if(strcmp(alumnos[i].dni, dni)==0){
+                    printf("DNI: %s\n", alumnos[i].dni);
+                    printf("Nombre: %s\n", alumnos[i].nombre);
+                    printf("Apellidos: %s\n", alumnos[i].apellidos);
+                    printf("Curso: %d\n", alumnos[i].curso);
+                    printf("Email: %s\n", alumnos[i].email);
+                    printf("Notas: %f %f %f %f %f\n", alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+                    break;
+                }
+            }
+        }
+        if(opcion==3){
+            printf("Introduce el curso: ");
+            scanf("%d", &dni);
+            for(int i=0; i<numAlumnos; i++) {
+                if(alumnos[i].curso == dni){
+                    printf("%s %s\n", alumnos[i].nombre, alumnos[i].apellidos);
+                }
+            }
+        }
+        if(opcion==4){
+            printf("Introduce la asignatura: ");
+            scanf("%d", &dni);
+            for(int i=0; i<numAlumnos; i++) {
+                if(dni==1) printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig1);
+                if(dni==2) printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig2);
+                if(dni==3) printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig3);
+                if(dni==4) printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig4);
+                if(dni==5) printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig5);
+            }
+        }
+        if(opcion==5){
+                        printf("Introduce el curso: ");
+            scanf("%d", &dni);
+            float notas_curso[numAlumnos][5];
+            int contador = 0;
+            for(int i=0; i<numAlumnos; i++) {
+                if(alumnos[i].curso == dni){
+                    notas_curso[contador][0] = alumnos[i].asig1;
+                    notas_curso[contador][1] = alumnos[i].asig2;
+                    notas_curso[contador][2] = alumnos[i].asig3;
+                    notas_curso[contador][3] = alumnos[i].asig4;
+                    notas_curso[contador][4] = alumnos[i].asig5;
+                    contador++;
+                }
+            }
+            float notas_medias[contador];
+            float media_curso=0;
+            for(int i=0; i<contador; i++) {
+                notas_medias[i] = (notas_curso[i][0] + notas_curso[i][1] + notas_curso[i][2] + notas_curso[i][3] + notas_curso[i][4])/5;
+                printf("Nota media del alumno %d: %f\n", i+1, notas_medias[i]);
+                media_curso += notas_medias[i];
+            }
+            printf("Nota media del curso: %f\n", media_curso/contador);
+        }
+        if(opcion==6){
+            printf("Saliendo del programa...\n");
+            break;
+        }
+    }
+}
+
 
 /*void modificarEliminarAlumno(struct alumno alumnos[], int *numAlumnos) {
     int dni;
@@ -603,15 +704,8 @@ int main()
             menuOpciones(datos, alumnos);
     }
 
-    int numAlumnos;
-    cargarDatosDeArchivo(alumnos, &numAlumnos);
-    visualizarDatos(alumnos, numAlumnos);
-
-
-
-    return 0;
-
-    // menuOpciones(archivoSeleccionado, alumnos);
+    // cargarDatosDeArchivo(alumnos, &numAlumnos);
+    // visualizarDatos(alumnos, numAlumnos);
 
     return 0;
 }
