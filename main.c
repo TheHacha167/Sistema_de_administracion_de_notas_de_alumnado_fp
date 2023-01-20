@@ -157,8 +157,6 @@ void visualizar_datos()
     int character_read;
     int w = 0, l = 0, c, contador = 0;
     FILE *fp;
-    fp = fopen("datos.txt", "r");
-
     alumno alumnos[500];
     fp = fopen("datos.txt", "r");
     if (fp == NULL)
@@ -167,19 +165,28 @@ void visualizar_datos()
         return;
     }
     printf("\n");
-    while (fscanf(fp, "%s|%c|%c|%d|%s|%f|%f|%f|%f|%f\n", alumnos[contador].dni, alumnos[contador].nombre, alumnos[contador].apellidos, &alumnos[contador].curso, alumnos[contador].email, &alumnos[contador].asig1, &alumnos[contador].asig2, &alumnos[contador].asig3, &alumnos[contador].asig4, &alumnos[contador].asig5) != EOF)
+    while (fscanf(fp, "%s|%c|%c|%d|%s|%f|%f|%f|%f|%f", alumnos[contador].dni, alumnos[contador].nombre, alumnos[contador].apellidos, &alumnos[contador].curso, alumnos[contador].email, &alumnos[contador].asig1, &alumnos[contador].asig2, &alumnos[contador].asig3, &alumnos[contador].asig4, &alumnos[contador].asig5) != EOF)
     {
 
         printf("test %s\n", alumnos[contador].dni);
 
         contador++;
     }
+for (size_t i = 0; i < contador; i++)
+{
+   //printf(" test %s\n", alumnos[contador].dni);
+
+}
+
+
+
+
     while ((character_read = fgetc(fp)) != EOF) // checking if the end of the file
     {
         // One character was read
         c++;
         // Check if it is a separator char (count another word)
-        if (character_read == ' ' || character_read == '\n' || character_read == '\t')
+        if (character_read == '|' || character_read == '\n' || character_read == '\t')
 
         {
             w++;
