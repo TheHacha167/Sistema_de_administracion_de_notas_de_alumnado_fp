@@ -18,11 +18,11 @@ const char *datos = "datos.txt";
 
 typedef struct alumno
 {
-    char dni[20];
-    char nombre[30];
-    char apellidos[50];
+    char dni[200];
+    char nombre[200];
+    char apellidos[200];
     int curso;
-    char email[40];
+    char email[200];
     float asig1, asig2, asig3, asig4, asig5;
 } alumno;
 
