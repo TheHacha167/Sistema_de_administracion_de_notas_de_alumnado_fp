@@ -9,7 +9,7 @@
 
 int main()
 {
-    char *name = "/testfile.txt";
+    char *name = "/datos.txt";
     char cwd[10000];
     if (getcwd(cwd, sizeof(cwd)) != NULL)
     {

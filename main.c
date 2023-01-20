@@ -18,7 +18,7 @@ const char *datos = "datos.txt";
 
 typedef struct alumno
 {
-    char dni[10];
+    char dni[20];
     char nombre[30];
     char apellidos[50];
     int curso;
@@ -28,6 +28,7 @@ typedef struct alumno
 
 void cargarDatosDeArchivo(struct alumno alumnos[], int *numAlumnos)
 {
+    numAlumnos;
     FILE *archivo = fopen("datos.txt", "r");
     if (archivo == NULL)
     {
@@ -80,14 +81,12 @@ void seleccionarArchivo()
 void agregarEntradas(struct alumno alumnos[], int masEntradas)
 {
 
-    FILE *datos = fopen("datos.txt", "a");
+    FILE *datos = fopen("/datos.txt", "a");
     if (datos == NULL)
     {
         printf("Error al abrir el archivo\n");
         return;
     }
-
-
 
     for (int i = numAlumnos; i < numAlumnos + masEntradas; i++)
     {
@@ -103,8 +102,8 @@ void agregarEntradas(struct alumno alumnos[], int masEntradas)
         scanf("%s", alumnos[i].email);
         printf("Ingrese las 5 notas del alumno %d: ", i + 1);
         scanf("%f %f %f %f %f", &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
-        
-        //Escribir en archivo
+
+        // Escribir en archivo
         fprintf(datos, "%s,%s,%s,%d,%s,%.1f,%.1f,%.1f,%.1f,%.1f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
     }
     numAlumnos += masEntradas;
@@ -153,41 +152,48 @@ void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
     printf("Nota minima: %.2f\n", notaMinima);
     fclose(datos);
 }
-void mostrarDatosAlumnos(int numAlumnos, const char *datos)
-{
-    printf("____________________\n");
-    printf("funcioon pedir datos\n");
-    printf("____________________\n");
-    struct alumno alumnos[numAlumnos];
-    FILE *archivo = fopen(datos, "r");
-    if (archivo == NULL)
-    {
-        printf("Error al abrir el archivo\n");
-    }
-    else
-    {
-        printf("____________________\n");
-        printf(" else funcioon pedir datos\n");
-        printf("____________________\n");
-        for (int i = 0; i < numAlumnos; i++)
-        {
-            // LEER ARCHIVO TXT ERROR
-            fscanf(archivo, "%s %s %s %d %s %f %f %f %f %f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
-            printf("%s,%s,%s,%d,%s,%.1f,%.1f,%.1f,%.1f,%.1f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
-        }
-    }
-    fclose(archivo);
-}
 void visualizar_datos()
 {
-    char dni[10];
+    int character_read;
+    int w = 0, l = 0, c, contador = 0;
     FILE *fp;
     fp = fopen("datos.txt", "r");
-    alumno alumnos[100];
-    while (fscanf(fp, "%s %s %s %d %s %f %f %f %f %f", alumnos[numAlumnos].dni, alumnos[numAlumnos].nombre, alumnos[numAlumnos].apellidos, &alumnos[numAlumnos].curso, alumnos[numAlumnos].email, &alumnos[numAlumnos].asig1, &alumnos[numAlumnos].asig2, &alumnos[numAlumnos].asig3, &alumnos[numAlumnos].asig4, &alumnos[numAlumnos].asig5) != EOF)
+
+    alumno alumnos[500];
+    fp = fopen("datos.txt", "r");
+    if (fp == NULL)
     {
-        numAlumnos++;
+        printf("Error al abrir el archivo datos.txt\n");
+        return;
     }
+    printf("\n");
+    while (fscanf(fp, "%s|%c|%c|%d|%s|%f|%f|%f|%f|%f\n", alumnos[contador].dni, alumnos[contador].nombre, alumnos[contador].apellidos, &alumnos[contador].curso, alumnos[contador].email, &alumnos[contador].asig1, &alumnos[contador].asig2, &alumnos[contador].asig3, &alumnos[contador].asig4, &alumnos[contador].asig5) != EOF)
+    {
+
+        printf("test %s\n", alumnos[contador].apellidos);
+
+        contador++;
+    }
+    while ((character_read = fgetc(fp)) != EOF) // checking if the end of the file
+    {
+        // One character was read
+        c++;
+        // Check if it is a separator char (count another word)
+        if (character_read == ' ' || character_read == '\n' || character_read == '\t')
+
+        {
+            w++;
+        }
+        // Check if it was a newline (count a new line)
+        if (character_read == '\n')
+            l++;
+    }
+    printf("_________________\n");
+    printf("%d", contador);
+    printf("_________________\n");
+    printf("The number of lines is: %d\n", l);
+    printf("The number of words is: %d\n", w);
+    printf("The number of characters is: %d\n", c);
     fclose(fp);
     int opcion = 1;
     while (opcion != 6)
@@ -213,8 +219,9 @@ void visualizar_datos()
         }
         if (opcion == 2)
         {
+            char dni[10];
             printf("Introduce el DNI del alumno: ");
-            scanf("%s", &dni);
+            scanf("%s", dni);
             for (int i = 0; i < numAlumnos; i++)
             {
                 if (strcmp(alumnos[i].dni, dni) == 0)
@@ -231,11 +238,12 @@ void visualizar_datos()
         }
         if (opcion == 3)
         {
+            int curso;
             printf("Introduce el curso: ");
-            scanf("%d", &dni);
+            scanf("%d", &curso);
             for (int i = 0; i < numAlumnos; i++)
             {
-                if (alumnos[i].curso == dni)
+                if (alumnos[i].curso == curso)
                 {
                     printf("%s %s\n", alumnos[i].nombre, alumnos[i].apellidos);
                 }
@@ -243,31 +251,31 @@ void visualizar_datos()
         }
         if (opcion == 4)
         {
+            int asignatura;
             printf("Introduce la asignatura: ");
-            scanf("%d", &dni);
+            scanf("%d", &asignatura);
             for (int i = 0; i < numAlumnos; i++)
             {
-                if (dni == 1)
-                    printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig1);
-                if (dni == 2)
+                if (asignatura == 2)
                     printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig2);
-                if (dni == 3)
+                if (asignatura == 3)
                     printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig3);
-                if (dni == 4)
+                if (asignatura == 4)
                     printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig4);
-                if (dni == 5)
+                if (asignatura == 5)
                     printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig5);
             }
         }
         if (opcion == 5)
         {
+            int curso;
             printf("Introduce el curso: ");
-            scanf("%d", &dni);
+            scanf("%d", &curso);
             float notas_curso[numAlumnos][5];
             int contador = 0;
             for (int i = 0; i < numAlumnos; i++)
             {
-                if (alumnos[i].curso == dni)
+                if (alumnos[i].curso == curso)
                 {
                     notas_curso[contador][0] = alumnos[i].asig1;
                     notas_curso[contador][1] = alumnos[i].asig2;
