@@ -170,7 +170,7 @@ void visualizar_datos()
     while (fscanf(fp, "%s|%c|%c|%d|%s|%f|%f|%f|%f|%f\n", alumnos[contador].dni, alumnos[contador].nombre, alumnos[contador].apellidos, &alumnos[contador].curso, alumnos[contador].email, &alumnos[contador].asig1, &alumnos[contador].asig2, &alumnos[contador].asig3, &alumnos[contador].asig4, &alumnos[contador].asig5) != EOF)
     {
 
-        printf("test %s\n", alumnos[contador].apellidos);
+        printf("test %s\n", alumnos[contador].dni);
 
         contador++;
     }
