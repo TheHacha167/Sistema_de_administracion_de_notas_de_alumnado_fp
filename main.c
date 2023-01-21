@@ -165,20 +165,22 @@ void visualizar_datos()
         return;
     }
     printf("\n");
-    while (fscanf(fp, "%s|%c|%c|%d|%s|%f|%f|%f|%f|%f", alumnos[contador].dni, alumnos[contador].nombre, alumnos[contador].apellidos, &alumnos[contador].curso, alumnos[contador].email, &alumnos[contador].asig1, &alumnos[contador].asig2, &alumnos[contador].asig3, &alumnos[contador].asig4, &alumnos[contador].asig5) != EOF)
+    while (fscanf(fp, "%s|%c|%c|%d|%s|%f|%f|%f|%f|%f\n", alumnos[contador].dni, alumnos[contador].nombre, alumnos[contador].apellidos, &alumnos[contador].curso, alumnos[contador].email, &alumnos[contador].asig1, &alumnos[contador].asig2, &alumnos[contador].asig3, &alumnos[contador].asig4, &alumnos[contador].asig5) != EOF)
     {
 
-        printf("test %s\n", alumnos[contador].dni);
+       printf("test %s\n", alumnos[contador].dni);
 
         contador++;
-    }
+
+
+   }/*
 for (size_t i = 0; i < contador; i++)
 {
-   //printf(" test %s\n", alumnos[contador].dni);
+  // printf(" test %s\n", alumnos[contador].dni);
 
 }
 
-
+*/ 
 
 
     while ((character_read = fgetc(fp)) != EOF) // checking if the end of the file
