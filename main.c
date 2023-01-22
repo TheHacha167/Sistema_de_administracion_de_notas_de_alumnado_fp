@@ -15,17 +15,52 @@ int numAlumnos = 100;
 int masEntradas = 0;
 int seguir = 1;
 const char *datos = "datos.txt";
-
+char full_name[100];
+char first_name[100]; // dni
+char last_name1[100]; // nombre
+char last_name2[100]; // apellido
+char curso[100];      // curso
+char email[100];      // email
+char nota1[100];      // nota1
+char nota2[100];      // nota2
+char nota3[100];      // nota3
+char nota4[100];      // nota4
+char nota5[100];      // nota5
+int i;
+int start = 0; // Comienzo en la entrada 50
+int count = 0; // Contador de entradas
 typedef struct alumno
 {
-    char dni[200];
-    char nombre[200];
-    char apellidos[200];
+    char dni[9];
+    char nombre[15];
+    char apellidos[15];
     int curso;
-    char email[200];
+    char email[15];
     float asig1, asig2, asig3, asig4, asig5;
 } alumno;
-
+void split_name(char *full_name, char *first_name, char *last_name1, char *last_name2, char *curso, char *email, char *nota1, char *nota2, char *nota3, char *nota4, char *nota5)
+{
+    char *token = strtok(full_name, "-");
+    strcpy(first_name, token);
+    token = strtok(NULL, "-");
+    strcpy(last_name1, token);
+    token = strtok(NULL, "-");
+    strcpy(last_name2, token);
+    token = strtok(NULL, "-");
+    strcpy(curso, token);
+    token = strtok(NULL, "-");
+    strcpy(email, token);
+    token = strtok(NULL, "-");
+    strcpy(nota1, token);
+    token = strtok(NULL, "-");
+    strcpy(nota2, token);
+    token = strtok(NULL, "-");
+    strcpy(nota3, token);
+    token = strtok(NULL, "-");
+    strcpy(nota4, token);
+    token = strtok(NULL, "-");
+    strcpy(nota5, token);
+}
 void cargarDatosDeArchivo(struct alumno alumnos[], int *numAlumnos)
 {
     numAlumnos;
@@ -38,7 +73,7 @@ void cargarDatosDeArchivo(struct alumno alumnos[], int *numAlumnos)
     fscanf(archivo, "%d", numAlumnos);
     for (int i = 0; i < *numAlumnos; i++)
     {
-        fscanf(archivo, "%s %s %s %d %s %f %f %f %f %f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
+        fscanf(archivo, "%s|%c|%c|%d|%s|%f|%f|%f|%f|%f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
     }
     fclose(archivo);
 }
@@ -164,46 +199,7 @@ void visualizar_datos()
         printf("Error al abrir el archivo datos.txt\n");
         return;
     }
-    printf("\n");
-    while (fscanf(fp, "%s|%c|%c|%d|%s|%f|%f|%f|%f|%f\n", alumnos[contador].dni, alumnos[contador].nombre, alumnos[contador].apellidos, &alumnos[contador].curso, alumnos[contador].email, &alumnos[contador].asig1, &alumnos[contador].asig2, &alumnos[contador].asig3, &alumnos[contador].asig4, &alumnos[contador].asig5) != EOF)
-    {
 
-       printf("test %s\n", alumnos[contador].dni);
-
-        contador++;
-
-
-   }/*
-for (size_t i = 0; i < contador; i++)
-{
-  // printf(" test %s\n", alumnos[contador].dni);
-
-}
-
-*/ 
-
-
-    while ((character_read = fgetc(fp)) != EOF) // checking if the end of the file
-    {
-        // One character was read
-        c++;
-        // Check if it is a separator char (count another word)
-        if (character_read == '|' || character_read == '\n' || character_read == '\t')
-
-        {
-            w++;
-        }
-        // Check if it was a newline (count a new line)
-        if (character_read == '\n')
-            l++;
-    }
-    printf("_________________\n");
-    printf("%d", contador);
-    printf("_________________\n");
-    printf("The number of lines is: %d\n", l);
-    printf("The number of words is: %d\n", w);
-    printf("The number of characters is: %d\n", c);
-    fclose(fp);
     int opcion = 1;
     while (opcion != 6)
     {
@@ -216,73 +212,201 @@ for (size_t i = 0; i < contador; i++)
         scanf("%d", &opcion);
         if (opcion == 1)
         {
-            for (int i = 0; i < numAlumnos; i++)
+
+            FILE *file = fopen("datos.txt", "r");
+            if (file == NULL)
             {
-                printf("DNI: %s\n", alumnos[i].dni);
-                printf("Nombre: %s\n", alumnos[i].nombre);
-                printf("Apellidos: %s\n", alumnos[i].apellidos);
-                printf("Curso: %d\n", alumnos[i].curso);
-                printf("Email: %s\n", alumnos[i].email);
-                printf("Notas: %f %f %f %f %f\n", alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+                printf("Error al abrir el archivo\n");
+                return;
             }
+            for (i = 0; i < 100; i++)
+            {
+                if (fgets(full_name, 100, file) == NULL)
+                    break;
+                if (count >= start)
+                {
+                    split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+                    printf("dni: %s\n", first_name);
+                    printf("nombre: %s\n", last_name1);
+                    printf("apellido: %s\n", last_name2);
+                    printf("curso: %s\n", curso);
+                    printf("email: %s\n", email);
+                    printf("nota1: %s\n", nota1);
+                    printf("nota2: %s\n", nota2);
+                    printf("nota3: %s\n", nota3);
+                    printf("nota4: %s\n", nota4);
+                    printf("nota5: %s\n", nota5);
+                }
+                count++;
+            }
+            fclose(file);
         }
         if (opcion == 2)
         {
-            char dni[10];
-            printf("Introduce el DNI del alumno: ");
-            scanf("%s", dni);
-            for (int i = 0; i < numAlumnos; i++)
+            char name_to_search[100];
+            int found = 0;
+
+            FILE *file = fopen("datos.txt", "r");
+            if (file == NULL)
             {
-                if (strcmp(alumnos[i].dni, dni) == 0)
+                printf("Error al abrir el archivo\n");
+                return;
+            }
+            printf("Ingrese el DNI: ");
+            scanf("%s", name_to_search);
+            while (fgets(full_name, 100, file) != NULL)
+            {
+                split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+                if (strcmp(first_name, name_to_search) == 0)
                 {
-                    printf("DNI: %s\n", alumnos[i].dni);
-                    printf("Nombre: %s\n", alumnos[i].nombre);
-                    printf("Apellidos: %s\n", alumnos[i].apellidos);
-                    printf("Curso: %d\n", alumnos[i].curso);
-                    printf("Email: %s\n", alumnos[i].email);
-                    printf("Notas: %f %f %f %f %f\n", alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+                    found = 1;
+                    printf("dni: %s\n", first_name);
+                    printf("nojmbre: %s\n", last_name1);
+                    printf("apellido: %s\n", last_name2);
+                    printf("curso: %s\n", curso);
+                    printf("email: %s\n", email);
+                    printf("nota1: %s\n", nota1);
+                    printf("nota2: %s\n", nota2);
+                    printf("nota3: %s\n", nota3);
+                    printf("nota4: %s\n", nota4);
+                    printf("nota5: %s\n", nota5);
                     break;
                 }
             }
+            fclose(file);
+            if (!found)
+                printf("Nombre no encontrado\n");
         }
         if (opcion == 3)
         {
-            int curso;
-            printf("Introduce el curso: ");
-            scanf("%d", &curso);
-            for (int i = 0; i < numAlumnos; i++)
+            char name_to_search[100];
+            int found = 0;
+
+            FILE *file = fopen("datos.txt", "r");
+            if (file == NULL)
             {
-                if (alumnos[i].curso == curso)
+                printf("Error al abrir el archivo\n");
+                return;
+            }
+            printf("Ingrese el curso: ");
+            scanf("%s", name_to_search);
+            while (fgets(full_name, 100, file) != NULL)
+            {
+                split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+                if (strcmp(curso, name_to_search) == 0)
                 {
-                    printf("%s %s\n", alumnos[i].nombre, alumnos[i].apellidos);
+                    found = 1;
+                    printf("dni: %s\n", first_name);
+                    printf("nojmbre: %s\n", last_name1);
+                    printf("apellido: %s\n", last_name2);
+                    printf("curso: %s\n", curso);
+                    printf("email: %s\n", email);
+                    printf("nota1: %s\n", nota1);
+                    printf("nota2: %s\n", nota2);
+                    printf("nota3: %s\n", nota3);
+                    printf("nota4: %s\n", nota4);
+                    printf("nota5: %s\n", nota5);
                 }
             }
+            break;
+            fclose(file);
+            if (!found)
+                printf("Curso no encontrado\n");
         }
         if (opcion == 4)
         {
-            int asignatura;
-            printf("Introduce la asignatura: ");
-            scanf("%d", &asignatura);
-            for (int i = 0; i < numAlumnos; i++)
+            int name_to_search;
+            int found = 0;
+
+            FILE *file = fopen("datos.txt", "r");
+            if (file == NULL)
             {
-                if (asignatura == 2)
-                    printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig2);
-                if (asignatura == 3)
-                    printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig3);
-                if (asignatura == 4)
-                    printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig4);
-                if (asignatura == 5)
-                    printf("%s %s: %f\n", alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].asig5);
+                printf("Error al abrir el archivo\n");
+                return;
             }
+            printf("Ingrese la asignatura(1-2-3-4-5): ");
+            scanf("%d", name_to_search);
+            while (fgets(full_name, 100, file) != NULL)
+            {
+                if (name_to_search == 1)
+                {
+                    split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+
+                    found = 1;
+
+                    printf("dni: %s\n", first_name);
+                    printf("nojmbre: %s\n", last_name1);
+                    printf("apellido: %s\n", last_name2);
+                    printf("curso: %s\n", curso);
+                    printf("email: %s\n", email);
+                    printf("nota1: %s\n", nota1);
+                }
+                if (name_to_search == 2)
+                {
+                    split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+
+                    found = 1;
+
+                    printf("dni: %s\n", first_name);
+                    printf("nojmbre: %s\n", last_name1);
+                    printf("apellido: %s\n", last_name2);
+                    printf("curso: %s\n", curso);
+                    printf("email: %s\n", email);
+                    printf("nota2: %s\n", nota2);
+                }
+                if (name_to_search == 3)
+                {
+                    split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+
+                    found = 1;
+
+                    printf("dni: %s\n", first_name);
+                    printf("nojmbre: %s\n", last_name1);
+                    printf("apellido: %s\n", last_name2);
+                    printf("curso: %s\n", curso);
+                    printf("email: %s\n", email);
+                    printf("nota3: %s\n", nota3);
+                }
+                if (name_to_search == 4)
+                {
+                    split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+
+                    found = 1;
+
+                    printf("dni: %s\n", first_name);
+                    printf("nojmbre: %s\n", last_name1);
+                    printf("apellido: %s\n", last_name2);
+                    printf("curso: %s\n", curso);
+                    printf("email: %s\n", email);
+                    printf("nota4: %s\n", nota4);
+                }
+                if (name_to_search == 5)
+                {
+                    split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+
+                    found = 1;
+
+                    printf("dni: %s\n", first_name);
+                    printf("nojmbre: %s\n", last_name1);
+                    printf("apellido: %s\n", last_name2);
+                    printf("curso: %s\n", curso);
+                    printf("email: %s\n", email);
+                    printf("nota5: %s\n", nota5);
+                }
+            }
+            break;
+            fclose(file);
+            if (!found)
+                printf("Asignatura no encontrada\n");
         }
         if (opcion == 5)
         {
             int curso;
             printf("Introduce el curso: ");
             scanf("%d", &curso);
-            float notas_curso[numAlumnos][5];
+            float notas_curso[contador][5];
             int contador = 0;
-            for (int i = 0; i < numAlumnos; i++)
+            for (int i = 0; i < contador; i++)
             {
                 if (alumnos[i].curso == curso)
                 {

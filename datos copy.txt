@@ -1,0 +1,10 @@
+12345678A-Juan-Perez-1-juanperez@gmail.com-8.5-7.5-9.0-8.0-6.5-
+87654321B-Maria-Garcia-2-mariagarcia@gmail.com-9.0-8.0-7.5-6.5-8.5-
+11122233C-Pedro-Martinez-3-pedromartinez@gmail.com-6.5-8.5-7.0-9.0-7.5-
+44455566D-Laura-Lopez-4-lauralopez@gmail.com-7.5-9.0-8.5-7.0-6.5-
+77788899E-Ana-Sanchez-5-anasanchez@gmail.com-8.0-7.5-6.5-9.0-8.5-
+22233344F-Juan-Lopez-2-juanlopez@gmail.com-6.5-7.5-9.0-8.0-6.5-
+55566777G-Maria-Martinez-3-mariamartinez@gmail.com-7.5-8.5-7.0-9.0-7.5-
+88899000H-Pedro-Garcia-4-pedrogarcia@gmail.com-8.0-7.5-6.5-9.0-8.5-
+11122333I-Laura-Sanchez-5-laurasanchez@gmail.com-9.0-9.5-8.5-7.0-6.5-
+44433222J-Ana-Perez-1-anaperez@gmail.com-7.5-8.5-9.0-8.0-6.5-

@@ -1,8 +1,0 @@
-12345678A,Juan,Pérez,1,juanperez@gmail.com,8.5,7.5,9.0,8.0,6.5
-88999000E,Juan,Lopez,2,juanlopez@gmail.com,6.5,7.5,9.0,8.0,6.5
-11222333F,Maria,Martinez,3,mariamartinez@gmail.com,7.5,8.5,7.0,9.0,7.5
-44433222G,Pedro,Garcia,4,pedrogarcia@gmail.com,8.0,7.5,6.5,9.0,8.5
-77766555H,Laura,Sánchez,5,laurasanchez@gmail.com,9.0,9.5,8.5,7.0,6.5
-00011000I,Ana,Pérez,1,anaperez@gmail.com,7.5,8.5,9.0,8.0,6.5
-22233344J,Juan,Lopez,2,juanlopez@gmail.com,6.5,7.5,9.0,8.0,6.5
-55566677K,Maria,Martinez,3,mariamartinez@gmail.com,7.5,8.5,7.0,9.0,7.5
