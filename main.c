@@ -447,16 +447,15 @@ void visualizar_datos(int maximo_entradas)
     }
 }
 
-void modificarEliminarDatos(int maximo_entradas)
+void modificarEliminarDatos()
 {
 
     int Max_Alumnos = 100;
-    maximo_entradas = Max_Alumnos;
     char name_to_search[Max_Alumnos];
     int found = 0;
     int num = 0;
 
-    FILE *file = fopen("datos.txt", "r");
+    FILE *file = fopen("datos.txt", "r+");
     if (file == NULL)
     {
         printf("Error al abrir el archivo\n");
@@ -464,9 +463,11 @@ void modificarEliminarDatos(int maximo_entradas)
     }
     printf("Ingrese el DNI: ");
     scanf("%s", name_to_search);
+
+    char full_name[Max_Alumnos], first_name[Max_Alumnos], last_name1[Max_Alumnos], last_name2[Max_Alumnos], curso[Max_Alumnos], email[Max_Alumnos], nota1[Max_Alumnos], nota2[Max_Alumnos], nota3[Max_Alumnos], nota4[Max_Alumnos], nota5[Max_Alumnos];
     while (fgets(full_name, Max_Alumnos, file) != NULL)
     {
-        split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+        sscanf(full_name, "%s %s %s %s %s %s %s %s %s %s %s", first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
         if (strcmp(first_name, name_to_search) == 0)
         {
             found = 1;
@@ -481,68 +482,75 @@ void modificarEliminarDatos(int maximo_entradas)
             printf("nota4: %s\n", nota4);
             printf("nota5: %s\n", nota5);
             printf("\n");
-            printf("Cual quiere modificar, marque del (1-10");
-            scanf("%d", num);
+            printf("Cual quiere modificar, marque del (1-10): ");
+            scanf("%d", &num);
             if (num == 1)
             {
                 printf("Ingrese el nuevo nombre: ");
                 scanf("%s", first_name);
             }
-            if (num == 1)
+            else if (num == 2)
             {
                 printf("Ingrese el nuevo apellido: ");
                 scanf("%s", last_name1);
             }
-            if (num == 1)
+            else if (num == 3)
             {
                 printf("Ingrese el nuevo dni: ");
                 scanf("%s", last_name2);
             }
-            if (num == 1)
+            else if (num == 4)
             {
                 printf("Ingrese el nuevo curso: ");
                 scanf("%s", curso);
             }
-            if (num == 1)
+            else if (num == 5)
             {
                 printf("Ingrese el nuevo email: ");
                 scanf("%s", email);
             }
-            if (num == 1)
+            else if (num == 6)
             {
                 printf("Ingrese la nueva nota: ");
-                scanf("%f", nota1);
+                scanf("%s", nota1);
             }
-            if (num == 1)
+            else if (num == 7)
             {
                 printf("Ingrese la nueva nota: ");
-                scanf("%f", nota2);
+                scanf("%s", nota2);
             }
-            if (num == 1)
+            else if (num == 8)
             {
                 printf("Ingrese la nueva nota: ");
-                scanf("%f", nota3);
+                scanf("%s", nota3);
             }
-            if (num == 1)
+            else if (num == 9)
             {
                 printf("Ingrese la nueva nota: ");
-                scanf("%f", nota4);
+                scanf("%s", nota4);
             }
-            if (num == 1)
+            else if (num == 10)
             {
                 printf("Ingrese la nueva nota: ");
-                scanf("%f", nota5);
+                scanf("%s", nota5);
+            }
+            else
+            {
+                printf("Opcion no valida");
+                break;
+            }
+            fseek(file, -strlen(full_name), SEEK_CUR); // move the file pointer back to the beginning of the line
+            fprintf(file, "%s %s %s %s %s %s %s %s %s %s %s", first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+            printf("El registro ha sido actualizado\n");
+            break;
+
+            fclose(file);
+            if (!found)
+            {
+                printf("DNI no encontrado\n");
             }
         }
-
-        return;
     }
-    
-fclose(file);
-if (!found){
-    printf("Nombre no encontrado\n");
-}
-
 }
 
 void menuOpciones()
@@ -575,7 +583,7 @@ void menuOpciones()
             visualizar_datos(numAlumnos);
             break;
         case 4:
-            modificarEliminarDatos(numAlumnos);
+            modificarEliminarDatos();
             break;
         case 5:
             printf("Saliendo del sistema...\n");
