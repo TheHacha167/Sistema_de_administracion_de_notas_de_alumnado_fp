@@ -130,7 +130,7 @@ void agregarEntradas()
     printf("Ingrese la quinta nota del estudiante: ");
     scanf("%f", &new_student.notas[4]);
 
-    fprintf(file, "%s-%s-%s-%s-%s-%.1f-%.1f-%.1f-%.1f-%.1f-\n", new_student.dni, new_student.nombre, new_student.apellido, new_student.curso, new_student.email, new_student.notas[0], new_student.notas[1], new_student.notas[2], new_student.notas[3], new_student.notas[4]);
+    fprintf(file, "%s-%s-%s-%s-%s-%f-%f-%f-%f-%f-\n", new_student.dni, new_student.nombre, new_student.apellido, new_student.curso, new_student.email, new_student.notas[0], new_student.notas[1], new_student.notas[2], new_student.notas[3], new_student.notas[4]);
     fclose(file);
 }
 
@@ -446,14 +446,14 @@ void visualizar_datos(int maximo_entradas)
         return;
     }
 }
-
+/*
 void modificarEliminarDatos()
 {
-
     int Max_Alumnos = 100;
     char name_to_search[Max_Alumnos];
     int found = 0;
     int num = 0;
+    int contador = 0;
 
     FILE *file = fopen("datos.txt", "r+");
     if (file == NULL)
@@ -467,36 +467,36 @@ void modificarEliminarDatos()
     char full_name[Max_Alumnos], first_name[Max_Alumnos], last_name1[Max_Alumnos], last_name2[Max_Alumnos], curso[Max_Alumnos], email[Max_Alumnos], nota1[Max_Alumnos], nota2[Max_Alumnos], nota3[Max_Alumnos], nota4[Max_Alumnos], nota5[Max_Alumnos];
     while (fgets(full_name, Max_Alumnos, file) != NULL)
     {
-        sscanf(full_name, "%s %s %s %s %s %s %s %s %s %s %s", first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+        split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
         if (strcmp(first_name, name_to_search) == 0)
         {
             found = 1;
-            printf("dni: %s\n", first_name);
-            printf("nojmbre: %s\n", last_name1);
-            printf("apellido: %s\n", last_name2);
-            printf("curso: %s\n", curso);
-            printf("email: %s\n", email);
-            printf("nota1: %s\n", nota1);
-            printf("nota2: %s\n", nota2);
-            printf("nota3: %s\n", nota3);
-            printf("nota4: %s\n", nota4);
-            printf("nota5: %s\n", nota5);
+            printf("1-dni: %s\n", first_name);
+            printf("2-nojmbre: %s\n", last_name1);
+            printf("3-apellido: %s\n", last_name2);
+            printf("4-curso: %s\n", curso);
+            printf("5-email: %s\n", email);
+            printf("6-nota1: %s\n", nota1);
+            printf("7-nota2: %s\n", nota2);
+            printf("8-nota3: %s\n", nota3);
+            printf("9-nota4: %s\n", nota4);
+            printf("10-nota5: %s\n", nota5);
             printf("\n");
             printf("Cual quiere modificar, marque del (1-10): ");
             scanf("%d", &num);
             if (num == 1)
             {
-                printf("Ingrese el nuevo nombre: ");
+                printf("Ingrese el nuevo dni: ");
                 scanf("%s", first_name);
             }
             else if (num == 2)
             {
-                printf("Ingrese el nuevo apellido: ");
+                printf("Ingrese el nuevo nombre: ");
                 scanf("%s", last_name1);
             }
             else if (num == 3)
             {
-                printf("Ingrese el nuevo dni: ");
+                printf("Ingrese el nuevo apellido: ");
                 scanf("%s", last_name2);
             }
             else if (num == 4)
@@ -511,46 +511,165 @@ void modificarEliminarDatos()
             }
             else if (num == 6)
             {
-                printf("Ingrese la nueva nota: ");
+                printf("Ingrese la nueva nota 1: ");
                 scanf("%s", nota1);
             }
             else if (num == 7)
             {
-                printf("Ingrese la nueva nota: ");
+                printf("Ingrese la nueva nota 2: ");
                 scanf("%s", nota2);
             }
             else if (num == 8)
             {
-                printf("Ingrese la nueva nota: ");
+                printf("Ingrese la nueva nota 3: ");
                 scanf("%s", nota3);
             }
             else if (num == 9)
             {
-                printf("Ingrese la nueva nota: ");
+                printf("Ingrese la nueva nota 4: ");
                 scanf("%s", nota4);
             }
             else if (num == 10)
             {
-                printf("Ingrese la nueva nota: ");
+                printf("Ingrese la nueva nota 5: ");
                 scanf("%s", nota5);
             }
             else
             {
-                printf("Opcion no valida");
-                break;
+                printf("Opción no válida.\n");
+                return;
             }
-            fseek(file, -strlen(full_name), SEEK_CUR); // move the file pointer back to the beginning of the line
-            fprintf(file, "%s %s %s %s %s %s %s %s %s %s %s", first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
-            printf("El registro ha sido actualizado\n");
+
+            // Mover el cursor al inicio de la línea correspondiente
+            fseek(file, contador, SEEK_SET);
+
+            // Escribir los cambios en el archivo
+            char new_line[Max_Alumnos];
+            sprintf(new_line, "%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-\n", first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+            fwrite(new_line, sizeof(char), strlen(new_line), file);
             break;
 
-            fclose(file);
-            if (!found)
-            {
-                printf("DNI no encontrado\n");
-            }
+            break;
         }
     }
+
+    if (!found)
+    {
+        printf("No se ha encontrado al alumno con DNI %s\n", name_to_search);
+    }
+    fclose(file);
+}
+*/
+void modificarEliminarDatos()
+{
+    int Max_Alumnos = 100;
+    char name_to_search[Max_Alumnos];
+    int found = 0;
+    int num = 0;
+
+    FILE *file = fopen("datos.txt", "r");
+    if (file == NULL)
+    {
+        printf("Error al abrir el archivo\n");
+        return;
+    }
+
+    // Crear archivo temporal
+    FILE *temp = fopen("datos_temp.txt", "w");
+    if (temp == NULL)
+    {
+        printf("Error al abrir el archivo temporal\n");
+        return;
+    }
+
+    printf("Ingrese el DNI: ");
+    scanf("%s", name_to_search);
+
+    // char full_name[Max_Alumnos], first_name[Max_Alumnos], last_name1[Max_Alumnos], last_name2[Max_Alumnos], curso[Max_Alumnos], email[Max_Alumnos], nota1[Max_Alumnos], nota2[Max_Alumnos], nota3[Max_Alumnos], nota4[Max_Alumnos], nota5[Max_Alumnos];
+    while (fgets(full_name, Max_Alumnos, file) != NULL)
+    {
+        split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+        if (strcmp(first_name, name_to_search) == 0)
+        {
+            found = 1;
+            printf("1-dni: %s\n", first_name);
+            printf("2-nojmbre: %s\n", last_name1);
+            printf("3-apellido: %s\n", last_name2);
+            printf("4-curso: %s\n", curso);
+            printf("5-email: %s\n", email);
+            printf("6-nota1: %s\n", nota1);
+            printf("7-nota2: %s\n", nota2);
+            printf("8-nota3: %s\n", nota3);
+            printf("9-nota4: %s\n", nota4);
+            printf("10-nota5: %s\n", nota5);
+            printf("\n");
+
+            printf("Cual quiere modificar, marque del (1-10): ");
+            scanf("%d", &num);
+            if (num == 1)
+            {
+                printf("Ingreseel nuevo dni: ");
+                scanf("%s", first_name);
+            }
+            else if (num == 2)
+            {
+                printf("Ingrese el nuevo nombre: ");
+                scanf("%s", last_name1);
+            }
+            else if (num == 3)
+            {
+                printf("Ingrese el nuevo apellido: ");
+                scanf("%s", last_name2);
+            }
+            else if (num == 4)
+            {
+                printf("Ingrese el nuevo curso: ");
+                scanf("%s", curso);
+            }
+            else if (num == 5)
+            {
+                printf("Ingrese el nuevo email: ");
+                scanf("%s", email);
+            }
+            else if (num == 6)
+            {
+                printf("Ingrese la nueva nota 1: ");
+                scanf("%s", nota1);
+            }
+            else if (num == 7)
+            {
+                printf("Ingrese la nueva nota 2: ");
+                scanf("%s", nota2);
+            }
+            else if (num == 8)
+            {
+                printf("Ingrese la nueva nota 3: ");
+                scanf("%s", nota3);
+            }
+            else if (num == 9)
+            {
+                printf("Ingrese la nueva nota 4: ");
+                scanf("%s", nota4);
+            }
+            else if (num == 10)
+            {
+                printf("Ingrese la nueva nota 5: ");
+                scanf("%s", nota5);
+            }
+        }
+        fprintf(temp, "%s-%s-%s-%s-%s-%s-%s-%s-%s-%s-\n", first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+    }
+
+    // Cerrar archivos
+    fclose(file);
+    fclose(temp);
+
+    // Reemplazar archivo original con archivo temporal
+    remove("datos.txt");
+    rename("datos_temp.txt", "datos.txt");
+
+    if (!found)
+        printf("No se encontró al alumno con DNI %s\n", name_to_search);
 }
 
 void menuOpciones()
@@ -570,16 +689,13 @@ void menuOpciones()
         switch (opcion)
         {
         case 1:
-            // Funciona
             agregarEntradas();
 
             break;
         case 2:
-            // acabado
             calcularNotasMedias(numAlumnos);
             break;
         case 3:
-            // acabado
             visualizar_datos(numAlumnos);
             break;
         case 4:
