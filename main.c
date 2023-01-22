@@ -12,6 +12,7 @@ void modificarEliminarDatos();
 // #include "funciones.h"
 
 int numAlumnos = 100;
+
 int masEntradas = 0;
 int seguir = 1;
 const char *datos = "datos.txt";
@@ -29,15 +30,28 @@ char nota5[100];      // nota5
 int i;
 int start = 0; // Comienzo en la entrada 50
 int count = 0; // Contador de entradas
+
+struct student
+{
+    char dni[10];
+    char nombre[100];
+    char apellido[100];
+    char curso[100];
+    char email[100];
+    float notas[5];
+    float nota_media;
+};
 typedef struct alumno
 {
-    char dni[9];
-    char nombre[15];
-    char apellidos[15];
+    char dni[10];
+    char nombre[30];
+    char apellidos[50];
     int curso;
-    char email[15];
+    char email[40];
     float asig1, asig2, asig3, asig4, asig5;
 } alumno;
+    struct student students[1000];
+
 void split_name(char *full_name, char *first_name, char *last_name1, char *last_name2, char *curso, char *email, char *nota1, char *nota2, char *nota3, char *nota4, char *nota5)
 {
     char *token = strtok(full_name, "-");
@@ -61,23 +75,7 @@ void split_name(char *full_name, char *first_name, char *last_name1, char *last_
     token = strtok(NULL, "-");
     strcpy(nota5, token);
 }
-void cargarDatosDeArchivo(struct alumno alumnos[], int *numAlumnos)
-{
-    numAlumnos;
-    FILE *archivo = fopen("datos.txt", "r");
-    if (archivo == NULL)
-    {
-        printf("Error al abrir el archivo\n");
-        return;
-    }
-    fscanf(archivo, "%d", numAlumnos);
-    for (int i = 0; i < *numAlumnos; i++)
-    {
-        fscanf(archivo, "%s|%c|%c|%d|%s|%f|%f|%f|%f|%f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
-    }
-    fclose(archivo);
-}
-
+//
 void seleccionarArchivo()
 {
 
@@ -99,96 +97,101 @@ void seleccionarArchivo()
         printf("Opcion no valida.\n");
     }
 }
-
-// void guardarDatos(struct alumno alumnos[], int numAlumnos)
-// {
-
-//     FILE *fp;
-//     fp = fopen("datos.txt", "w");
-//     for (int i = 0; i < numAlumnos; i++)
-//     {
-//         fprintf(fp, "%s,%s,%s,%d,%s,%f,%f,%f,%f,%f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
-//     }
-//     fclose(fp);
-//     printf("Los datos de los alumnos se han guardado en el archivo datos.txt\n");
-// }
-
-void agregarEntradas(struct alumno alumnos[], int masEntradas)
+// terminado
+void agregarEntradas()
 {
 
-    FILE *datos = fopen("/datos.txt", "a");
-    if (datos == NULL)
+FILE *file = fopen("datos.txt", "a");
+if (file == NULL)
+{
+    printf("Error al abrir el archivo\n");
+    return;
+}
+
+struct student new_student;
+printf("Ingrese el dni del estudiante: ");
+scanf("%s", new_student.dni);
+printf("Ingrese el nombre del estudiante: ");
+scanf("%s", new_student.nombre);
+printf("Ingrese el apellido del estudiante: ");
+scanf("%s", new_student.apellido);
+printf("Ingrese el curso del estudiante: ");
+scanf("%s", new_student.curso);
+printf("Ingrese el email del estudiante: ");
+scanf("%s", new_student.email);
+printf("Ingrese la primera nota del estudiante: ");
+scanf("%f", &new_student.notas[0]);
+printf("Ingrese la segunda nota del estudiante: ");
+scanf("%f", &new_student.notas[1]);
+printf("Ingrese la tercera nota del estudiante: ");
+scanf("%f", &new_student.notas[2]);
+printf("Ingrese la cuarta nota del estudiante: ");
+scanf("%f", &new_student.notas[3]);
+printf("Ingrese la quinta nota del estudiante: ");
+scanf("%f", &new_student.notas[4]);
+
+fprintf(file, "%s-%s-%s-%s-%s-%.1f-%.1f-%.1f-%.1f-%.1f-\n", new_student.dni, new_student.nombre, new_student.apellido, new_student.curso, new_student.email, new_student.notas[0], new_student.notas[1], new_student.notas[2], new_student.notas[3], new_student.notas[4]);
+fclose(file);
+
+
+
+
+}
+
+// terminado
+int compare(const void *a, const void *b)
+{
+    struct student *studentA = (struct student *)a;
+    struct student *studentB = (struct student *)b;
+    return (studentB->nota_media - studentA->nota_media);
+}
+void calcularNotasMedias(int maximo_entradas)
+{
+    struct student students[100];
+    char full_name[100];
+    char course_to_search[100];
+    int count = 0;
+    float total_notas = 0;
+    int i;
+    FILE *file = fopen("datos.txt", "r");
+    if (file == NULL)
     {
         printf("Error al abrir el archivo\n");
         return;
     }
 
-    for (int i = numAlumnos; i < numAlumnos + masEntradas; i++)
+    printf("Ingrese el curso a buscar: ");
+    scanf("%s", course_to_search);
+    while (fgets(full_name, 100, file) != NULL)
     {
-        printf("Ingrese el DNI del alumno %d: ", i + 1);
-        scanf("%s", alumnos[i].dni);
-        printf("Ingrese el nombre del alumno %d: ", i + 1);
-        scanf("%s", alumnos[i].nombre);
-        printf("Ingrese el apellido del alumno %d: ", i + 1);
-        scanf("%s", alumnos[i].apellidos);
-        printf("Ingrese el curso %d: ", i + 1);
-        scanf("%d", &alumnos[i].curso);
-        printf("Ingrese el email del alumno %d: ", i + 1);
-        scanf("%s", alumnos[i].email);
-        printf("Ingrese las 5 notas del alumno %d: ", i + 1);
-        scanf("%f %f %f %f %f", &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
-
-        // Escribir en archivo
-        fprintf(datos, "%s,%s,%s,%d,%s,%.1f,%.1f,%.1f,%.1f,%.1f\n", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, alumnos[i].curso, alumnos[i].email, alumnos[i].asig1, alumnos[i].asig2, alumnos[i].asig3, alumnos[i].asig4, alumnos[i].asig5);
+        sscanf(full_name, "%[^-]-%[^-]-%[^-]-%[^-]-%[^-]-%f-%f-%f-%f-%f", students[count].dni, students[count].nombre, students[count].apellido, students[count].curso, students[count].email, &students[count].notas[0], &students[count].notas[1], &students[count].notas[2], &students[count].notas[3], &students[count].notas[4]);
+        if (strcmp(students[count].curso, course_to_search) == 0)
+        {
+            for (i = 0; i < 5; i++)
+            {
+                total_notas += students[count].notas[i];
+            }
+            students[count].nota_media = total_notas / 5;
+            count++;
+        }
+        total_notas = 0;
     }
-    numAlumnos += masEntradas;
-    fclose(datos);
+    fclose(file);
+    qsort(students, count, sizeof(struct student), compare);
+    printf("Notas medias de los alumnos del curso %s (de mayor a menor):\n", course_to_search);
+    for (i = 0; i < count; i++)
+    {
+        printf("%s %s: %f\n", students[i].nombre, students[i].apellido, students[i].nota_media);
+    }
+    return;
 }
-void calcularNotasMedias(struct alumno alumnos[], int numAlumnos)
-{
-    float mediaAsig1 = 0;
-    float mediaAsig2 = 0;
-    float mediaAsig3 = 0;
-    float mediaAsig4 = 0;
-    float mediaAsig5 = 0;
-    float notaMaxima = 0;
-    float notaMinima = 100;
-    FILE *datos = fopen("datos.txt", "a");
-    if (datos == NULL)
-    {
-        printf("Error al abrir el archivo\n");
-        return;
-    }
-    for (int i = 0; i < numAlumnos; i++)
-    {
-        fscanf(datos, "%s %s %s %d %s %f %f %f %f %f", alumnos[i].dni, alumnos[i].nombre, alumnos[i].apellidos, &alumnos[i].curso, alumnos[i].email, &alumnos[i].asig1, &alumnos[i].asig2, &alumnos[i].asig3, &alumnos[i].asig4, &alumnos[i].asig5);
-        mediaAsig1 += alumnos[i].asig1;
-        mediaAsig2 += alumnos[i].asig2;
-        mediaAsig3 += alumnos[i].asig3;
-        mediaAsig4 += alumnos[i].asig4;
-        mediaAsig5 += alumnos[i].asig5;
 
-        if (alumnos[i].asig1 > notaMaxima)
-            notaMaxima = alumnos[i].asig1;
-        if (alumnos[i].asig1 < notaMinima)
-            notaMinima = alumnos[i].asig1;
-    }
-    mediaAsig1 /= numAlumnos;
-    mediaAsig2 /= numAlumnos;
-    mediaAsig3 /= numAlumnos;
-    mediaAsig4 /= numAlumnos;
-    mediaAsig5 /= numAlumnos;
-    printf("Nota media asignatura 1: %.2f\n", mediaAsig1);
-    printf("Nota media asignatura 2: %.2f\n", mediaAsig2);
-    printf("Nota media asignatura 3: %.2f\n", mediaAsig3);
-    printf("Nota media asignatura 4: %.2f\n", mediaAsig4);
-    printf("Nota media asignatura 5: %.2f\n", mediaAsig5);
-    printf("Nota maxima: %.2f\n", notaMaxima);
-    printf("Nota minima: %.2f\n", notaMinima);
-    fclose(datos);
-}
-void visualizar_datos()
+// acabada
+void visualizar_datos(int maximo_entradas)
+
 {
+    int Max_Alumnos = 100;
+    maximo_entradas = Max_Alumnos;
     int character_read;
     int w = 0, l = 0, c, contador = 0;
     FILE *fp;
@@ -219,10 +222,10 @@ void visualizar_datos()
                 printf("Error al abrir el archivo\n");
                 return;
             }
-            for (i = 0; i < 100; i++)
+            for (i = 0; i < Max_Alumnos; i++)
             {
-                if (fgets(full_name, 100, file) == NULL)
-                    break;
+                if (fgets(full_name, Max_Alumnos, file) == NULL)
+                    return;
                 if (count >= start)
                 {
                     split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
@@ -243,7 +246,7 @@ void visualizar_datos()
         }
         if (opcion == 2)
         {
-            char name_to_search[100];
+            char name_to_search[Max_Alumnos];
             int found = 0;
 
             FILE *file = fopen("datos.txt", "r");
@@ -254,7 +257,7 @@ void visualizar_datos()
             }
             printf("Ingrese el DNI: ");
             scanf("%s", name_to_search);
-            while (fgets(full_name, 100, file) != NULL)
+            while (fgets(full_name, Max_Alumnos, file) != NULL)
             {
                 split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
                 if (strcmp(first_name, name_to_search) == 0)
@@ -270,7 +273,7 @@ void visualizar_datos()
                     printf("nota3: %s\n", nota3);
                     printf("nota4: %s\n", nota4);
                     printf("nota5: %s\n", nota5);
-                    break;
+                    return;
                 }
             }
             fclose(file);
@@ -279,7 +282,7 @@ void visualizar_datos()
         }
         if (opcion == 3)
         {
-            char name_to_search[100];
+            char name_to_search[Max_Alumnos];
             int found = 0;
 
             FILE *file = fopen("datos.txt", "r");
@@ -290,7 +293,7 @@ void visualizar_datos()
             }
             printf("Ingrese el curso: ");
             scanf("%s", name_to_search);
-            while (fgets(full_name, 100, file) != NULL)
+            while (fgets(full_name, Max_Alumnos, file) != NULL)
             {
                 split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
                 if (strcmp(curso, name_to_search) == 0)
@@ -308,7 +311,7 @@ void visualizar_datos()
                     printf("nota5: %s\n", nota5);
                 }
             }
-            break;
+            return;
             fclose(file);
             if (!found)
                 printf("Curso no encontrado\n");
@@ -325,8 +328,8 @@ void visualizar_datos()
                 return;
             }
             printf("Ingrese la asignatura(1-2-3-4-5): ");
-            scanf("%d", name_to_search);
-            while (fgets(full_name, 100, file) != NULL)
+            scanf("%d", &name_to_search);
+            while (fgets(full_name, Max_Alumnos, file) != NULL)
             {
                 if (name_to_search == 1)
                 {
@@ -340,6 +343,7 @@ void visualizar_datos()
                     printf("curso: %s\n", curso);
                     printf("email: %s\n", email);
                     printf("nota1: %s\n", nota1);
+                    printf("\n");
                 }
                 if (name_to_search == 2)
                 {
@@ -353,6 +357,7 @@ void visualizar_datos()
                     printf("curso: %s\n", curso);
                     printf("email: %s\n", email);
                     printf("nota2: %s\n", nota2);
+                    printf("\n");
                 }
                 if (name_to_search == 3)
                 {
@@ -366,6 +371,7 @@ void visualizar_datos()
                     printf("curso: %s\n", curso);
                     printf("email: %s\n", email);
                     printf("nota3: %s\n", nota3);
+                    printf("\n");
                 }
                 if (name_to_search == 4)
                 {
@@ -379,6 +385,7 @@ void visualizar_datos()
                     printf("curso: %s\n", curso);
                     printf("email: %s\n", email);
                     printf("nota4: %s\n", nota4);
+                    printf("\n");
                 }
                 if (name_to_search == 5)
                 {
@@ -392,51 +399,104 @@ void visualizar_datos()
                     printf("curso: %s\n", curso);
                     printf("email: %s\n", email);
                     printf("nota5: %s\n", nota5);
+                    printf("\n");
                 }
             }
-            break;
+            return;
             fclose(file);
             if (!found)
                 printf("Asignatura no encontrada\n");
         }
         if (opcion == 5)
         {
-            int curso;
-            printf("Introduce el curso: ");
-            scanf("%d", &curso);
-            float notas_curso[contador][5];
-            int contador = 0;
-            for (int i = 0; i < contador; i++)
+
+            char course_to_search[Max_Alumnos]; // Curso a buscar
+            int found = 0;
+            int count = 0;
+            float total_notas = 0;
+            FILE *file = fopen("datos.txt", "r");
+            if (file == NULL)
             {
-                if (alumnos[i].curso == curso)
+                printf("Error al abrir el archivo\n");
+                return;
+            }
+            printf("Ingrese el curso a buscar: ");
+            scanf("%s", course_to_search);
+            while (fgets(full_name, Max_Alumnos, file) != NULL)
+            {
+                split_name(full_name, first_name, last_name1, last_name2, curso, email, nota1, nota2, nota3, nota4, nota5);
+                if (strcmp(curso, course_to_search) == 0)
                 {
-                    notas_curso[contador][0] = alumnos[i].asig1;
-                    notas_curso[contador][1] = alumnos[i].asig2;
-                    notas_curso[contador][2] = alumnos[i].asig3;
-                    notas_curso[contador][3] = alumnos[i].asig4;
-                    notas_curso[contador][4] = alumnos[i].asig5;
-                    contador++;
+                    found = 1;
+                    count++;
+                    total_notas += (atof(nota1) + atof(nota2) + atof(nota3) + atof(nota4) + atof(nota5)) / 5;
                 }
             }
-            float notas_medias[contador];
-            float media_curso = 0;
-            for (int i = 0; i < contador; i++)
+            if (found)
             {
-                notas_medias[i] = (notas_curso[i][0] + notas_curso[i][1] + notas_curso[i][2] + notas_curso[i][3] + notas_curso[i][4]) / 5;
-                printf("Nota media del alumno %d: %f\n", i + 1, notas_medias[i]);
-                media_curso += notas_medias[i];
+                printf("Media de notas del curso %s: %f\n", course_to_search, total_notas / count);
             }
-            printf("Nota media del curso: %f\n", media_curso / contador);
+            else
+            {
+                printf("Curso no encontrado\n");
+            }
+            fclose(file);
+            return;
         }
-        if (opcion == 6)
-        {
-            printf("Saliendo del programa...\n");
-            break;
-        }
+    }
+    if (opcion == 6)
+    {
+        printf("Saliendo del programa...\n");
+        return;
     }
 }
 
-void menuOpciones(const char *datos, alumno *alumnos)
+
+void modificarEliminarDatos(struct student students[], int num_students)
+{
+    char dni_buscar[10];
+    int i;
+    printf("Ingrese el DNI del alumno cuyos datos desea modificar: ");
+    scanf("%s", dni_buscar);
+    for (i = 0; i < num_students; i++)
+    {
+        if (strcmp(students[i].dni, dni_buscar) == 0)
+        {
+            printf("Ingrese el nuevo nombre del alumno: ");
+            scanf("%s", students[i].nombre);
+            printf("Ingrese el nuevo apellido del alumno: ");
+            scanf("%s", students[i].apellido);
+            printf("Ingrese el nuevo curso del alumno: ");
+            scanf("%s", students[i].curso);
+            printf("Ingrese el nuevo email del alumno: ");
+            scanf("%s", students[i].email);
+            printf("Ingrese las nuevas notas del alumno separadas por espacio: ");
+            scanf("%f %f %f %f %f", &students[i].notas[0], &students[i].notas[1], &students[i].notas[2], &students[i].notas[3], &students[i].notas[4]);
+            students[i].nota_media = (students[i].notas[0] + students[i].notas[1] + students[i].notas[2] + students[i].notas[3] + students[i].notas[4]) / 5;
+            break;
+        }
+    }
+    if (i == num_students)
+    {
+        printf("No se encontró ningún alumno con el DNI ingresado.\n");
+    }
+    else
+    {
+        FILE *file = fopen("datos.txt", "w");
+        if (file == NULL)
+        {
+            printf("Error al abrir el archivo\n");
+            return;
+        }
+        for (i = 0; i < num_students; i++)
+        {
+            fprintf(file, "%s-%s-%s-%s-%s-%.1f-%.1f-%.1f-%.1f-%.1f-%.1f\n", students[i].dni, students[i].nombre, students[i].apellido, students[i].curso, students[i].email, students[i].notas[0], students[i].notas[1], students[i].notas[2], students[i].notas[3], students[i].notas[4], students[i].nota_media);
+        }
+        fclose(file);
+    }
+}
+
+void menuOpciones()
 {
     int opcion = 0;
 
@@ -453,22 +513,20 @@ void menuOpciones(const char *datos, alumno *alumnos)
         switch (opcion)
         {
         case 1:
-            printf("Ingrese el numero de entradas a añadir: ");
-            scanf("%d", &masEntradas);
-            // printf("entradas_____%d ", masEntradas);
+            // Funciona
+            agregarEntradas();
 
-            agregarEntradas(alumnos, numAlumnos);
-            numAlumnos = numAlumnos + masEntradas;
-            masEntradas = 0;
             break;
         case 2:
-            calcularNotasMedias(alumnos, numAlumnos);
+            // acabado
+            calcularNotasMedias(numAlumnos);
             break;
         case 3:
-            visualizar_datos();
+            // acabado
+            visualizar_datos(numAlumnos);
             break;
         case 4:
-            // modificarEliminarDatos(alumnos, numAlumnos);
+            modificarEliminarDatos(students,numAlumnos);
             break;
         case 5:
             printf("Saliendo del sistema...\n");
