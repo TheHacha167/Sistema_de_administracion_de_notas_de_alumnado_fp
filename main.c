@@ -607,8 +607,5 @@ int main()
             menuOpciones(datos, alumnos);
     }
 
-    // cargarDatosDeArchivo(alumnos, &numAlumnos);
-    // visualizarDatos(alumnos, numAlumnos);
-
     return 0;
 }
