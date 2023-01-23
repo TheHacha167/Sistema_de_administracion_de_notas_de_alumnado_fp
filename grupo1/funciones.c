@@ -1,16 +1,6 @@
-/*
-// Funciones del sistema
-void entradaDatos();
-void calcularNotasMedias();
-void visualizarDatos();
-void modificarEliminarDatos();
-*/
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h> // Booleanos
-#include <stdlib.h>
 #include "cabecera.h"
-// #include "funciones.h"
+#include "externs.h"
+
 void split_name(char *full_name, char *first_name, char *last_name1, char *last_name2, char *curso, char *email, char *nota1, char *nota2, char *nota3, char *nota4, char *nota5)
 {
     char *token = strtok(full_name, "-");
@@ -80,7 +70,7 @@ void calcularNotasMedias(int maximo_entradas)
     struct student students[100];
     char full_name[100];
     char course_to_search[100];
-    int count = 0;
+    count = 0;
     float total_notas = 0;
     int i;
     FILE *file = fopen("datos.txt", "r");
@@ -340,7 +330,7 @@ void visualizar_datos(int maximo_entradas)
 
             char course_to_search[Max_Alumnos]; // Curso a buscar
             int found = 0;
-            int count = 0;
+            count = 0;
             float total_notas = 0;
             FILE *file = fopen("datos.txt", "r");
             if (file == NULL)
@@ -525,19 +515,4 @@ void menuOpciones()
             printf("Opcion incorrecta. Por favor, seleccione una opcion valida.\n");
         }
     }
-}
-
-int main()
-{
-    alumno alumnos[numAlumnos];
-
-    while (seguir)
-    {
-        printf("¿Desea continuar en el programa? (1: Si / 0: No) : ");
-        scanf("%d", &seguir);
-        if (seguir)
-            menuOpciones(datos, alumnos);
-    }
-
-    return 0;
 }

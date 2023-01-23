@@ -1,16 +1,5 @@
-/*
-// Funciones del sistema
-void entradaDatos();
-void calcularNotasMedias();
-void visualizarDatos();
-void modificarEliminarDatos();
-*/
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h> // Booleanos
-#include <stdlib.h>
 #include "cabecera.h"
-// #include "funciones.h"
+
 void split_name(char *full_name, char *first_name, char *last_name1, char *last_name2, char *curso, char *email, char *nota1, char *nota2, char *nota3, char *nota4, char *nota5)
 {
     char *token = strtok(full_name, "-");
@@ -525,19 +514,4 @@ void menuOpciones()
             printf("Opcion incorrecta. Por favor, seleccione una opcion valida.\n");
         }
     }
-}
-
-int main()
-{
-    alumno alumnos[numAlumnos];
-
-    while (seguir)
-    {
-        printf("¿Desea continuar en el programa? (1: Si / 0: No) : ");
-        scanf("%d", &seguir);
-        if (seguir)
-            menuOpciones(datos, alumnos);
-    }
-
-    return 0;
 }
